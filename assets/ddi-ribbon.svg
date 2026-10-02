@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" role="img" aria-labelledby="title desc">
+  <title id="title">HIV × STI drug interaction visual</title>
+  <desc id="desc">A red awareness ribbon connected with two medicine capsules and bidirectional drug interaction arrows.</desc>
+  <defs>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff867b"/>
+      <stop offset=".45" stop-color="#e36b5d"/>
+      <stop offset="1" stop-color="#a93831"/>
+    </linearGradient>
+    <linearGradient id="redCap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff6f67"/>
+      <stop offset=".5" stop-color="#f1a39a"/>
+      <stop offset="1" stop-color="#eef2f5"/>
+    </linearGradient>
+    <linearGradient id="blueCap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#eef2f5"/>
+      <stop offset=".5" stop-color="#9fc7ff"/>
+      <stop offset="1" stop-color="#5c91d8"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="11" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 .89  0 1 0 0 .42  0 0 1 0 .35  0 0 0 .55 0"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <circle cx="382" cy="278" r="218" fill="#14202b" opacity=".72"/>
+  <circle cx="382" cy="278" r="184" fill="none" stroke="#2a3440" stroke-width="1.5" stroke-dasharray="5 9"/>
+  <circle cx="382" cy="278" r="244" fill="none" stroke="#24303c" stroke-width="1" stroke-dasharray="2 10"/>
+
+  <g opacity=".22" filter="url(#soft)">
+    <circle cx="205" cy="160" r="44" fill="#e36b5d"/>
+    <circle cx="595" cy="375" r="52" fill="#6aa8f5"/>
+    <circle cx="615" cy="135" r="28" fill="#f3c97c"/>
+  </g>
+
+  <!-- awareness ribbon -->
+  <g fill="none" stroke="url(#ribbon)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <path d="M326 72 C 250 111 240 185 294 238 C 332 275 387 292 431 336 C 488 392 480 459 405 493"/>
+    <path d="M438 72 C 514 111 524 185 470 238 C 432 275 377 292 333 336 C 276 392 284 459 359 493"/>
+  </g>
+  <path d="M382 66 C 338 102 316 145 322 187" fill="none" stroke="#ffd0c9" stroke-opacity=".32" stroke-width="2"/>
+  <path d="M382 494 C 426 458 448 415 442 373" fill="none" stroke="#8f2e29" stroke-opacity=".42" stroke-width="2"/>
+
+  <!-- interaction arrows -->
+  <path d="M205 345 C 264 295 327 286 395 305" fill="none" stroke="#e36b5d" stroke-width="18" stroke-linecap="round"/>
+  <path d="M391 290 L421 306 L392 320 Z" fill="#e36b5d"/>
+  <path d="M555 218 C 498 271 436 280 366 258" fill="none" stroke="#6aa8f5" stroke-width="18" stroke-linecap="round"/>
+  <path d="M370 244 L340 257 L370 272 Z" fill="#6aa8f5"/>
+
+  <!-- ART capsule -->
+  <g transform="translate(170 280) rotate(13 135 42)" filter="url(#glow)">
+    <rect x="0" y="0" width="270" height="84" rx="42" fill="#0f151c" stroke="#2a3440" stroke-width="2"/>
+    <path d="M42 0 H135 V84 H42 A42 42 0 0 1 42 0Z" fill="#e36b5d"/>
+    <path d="M135 0 H228 A42 42 0 0 1 228 84 H135Z" fill="#f2deda"/>
+    <rect x="126" y="0" width="2" height="84" fill="#3c2b2a" opacity=".4"/>
+    <text x="181" y="51" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif" font-size="24" font-weight="900" fill="#26313b">ART</text>
+  </g>
+
+  <!-- concomitant drug capsule -->
+  <g transform="translate(325 300) rotate(-15 135 42)" filter="url(#glow)">
+    <rect x="0" y="0" width="270" height="84" rx="42" fill="#0f151c" stroke="#2a3440" stroke-width="2"/>
+    <path d="M42 0 H135 V84 H42 A42 42 0 0 1 42 0Z" fill="#f2f5f8"/>
+    <path d="M135 0 H228 A42 42 0 0 1 228 84 H135Z" fill="#6aa8f5"/>
+    <rect x="126" y="0" width="2" height="84" fill="#283a55" opacity=".45"/>
+    <text x="106" y="36" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif" font-size="14" font-weight="800" fill="#687582">CONCOMITANT</text>
+    <text x="106" y="56" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif" font-size="16" font-weight="900" fill="#24303c">DRUG</text>
+  </g>
+
+  <!-- orbit dots -->
+  <g fill="#9aa6b2">
+    <circle cx="154" cy="196" r="4"/><circle cx="218" cy="138" r="3"/>
+    <circle cx="610" cy="236" r="4"/><circle cx="652" cy="334" r="3"/>
+    <circle cx="590" cy="428" r="3"/><circle cx="230" cy="434" r="4"/>
+  </g>
+  <g fill="none" stroke="#2a3440" stroke-width="1.2">
+    <path d="M154 196 C 220 80 520 80 610 236"/>
+    <path d="M230 434 C 340 520 520 520 652 334"/>
+  </g>
+</svg>
