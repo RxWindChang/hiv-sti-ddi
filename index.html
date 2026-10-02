@@ -228,6 +228,15 @@ p { font-size: 18px; line-height: 1.65; }
   .reference-card a { color:#f0b6ad; }
   .public-footer { padding:44px 0 60px; color:var(--muted); font-size:13px; border-top:1px solid rgba(255,255,255,.08); }
   .micro-note { margin-top:14px; color:#73808c; font-size:12px; line-height:1.5; }
+  .interactive-filter { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+  .scene-filter { border:1px solid var(--line); background:#0f151c; color:var(--muted); border-radius:999px; padding:10px 13px; font-weight:900; cursor:pointer; }
+  .scene-filter.active { color:var(--ink); background:var(--accent-soft); border-color:#6d3934; }
+  .scene-card { cursor:pointer; transition:transform .18s ease,border-color .18s ease; }
+  .scene-card.selected { border-color:#74423c; background:#171d24; }
+  .scene-detail { margin-top:16px; padding:20px; border:1px solid var(--line); border-radius:18px; background:#10171f; display:none; }
+  .scene-detail.show { display:block; }
+  .scene-detail h3 { margin:0 0 8px; font-size:24px; }
+  .scene-detail p { margin:0; color:#c2c9cf; font-size:14px; line-height:1.65; }
   @media (max-width: 980px) {
     .public-links { display:none; }
     .hero-meta,.framework-flow,.scene-grid,.tool-grid { grid-template-columns:1fr 1fr; }
@@ -262,15 +271,15 @@ p { font-size: 18px; line-height: 1.65; }
       <div class="public-kicker">HIV × STI · Drug–Drug Interactions</div>
       <h1>差一步就危險</h1>
       <div class="subtitle">愛滋與性病治療常見藥物交互作用實戰解析</div>
-      <p class="micro-note">把一場 35 分鐘演講，轉成可以獨立閱讀、操作、思考的臨床教學網站。內容以既有 62 頁教材與目前網站版本為骨架。</p>
+      <p class="micro-note">不是投影片，也不是講綱。這是一個可以自己探索、點選、測驗與拆解病例的 HIV × STI DDI interactive learning site。</p>
       <div class="hero-actions">
         <a class="public-btn primary" href="#framework">開始學習 →</a>
         <a class="public-btn" href="#case">直接挑戰 Final Case</a>
       </div>
       <div class="hero-meta">
-        <div class="meta-card"><div class="n">4</div><div class="l">ART fingerprints</div></div>
-        <div class="meta-card"><div class="n">5</div><div class="l">DDI clinical thinking steps</div></div>
-        <div class="meta-card"><div class="n">1</div><div class="l">完整 Final Case</div></div>
+        <div class="meta-card"><div class="n">4</div><div class="l">ART fingerprints 可探索</div></div>
+        <div class="meta-card"><div class="n">11</div><div class="l">高風險 clinical scenes</div></div>
+        <div class="meta-card"><div class="n">7</div><div class="l">Final Case interactive steps</div></div>
       </div>
     </div>
   </section>
@@ -334,9 +343,17 @@ p { font-size: 18px; line-height: 1.65; }
     <div class="public-wrap">
       <div class="section-head">
         <div><h2>真正容易「差一步」的臨床場景。</h2></div>
-        <p>把投影片裡的 high-risk topics 重新整理成公開網站可快速掃描的 clinical cards。</p>
+        <p>不要一次把所有內容塞給讀者。先選一個場景，再看它的 DDI danger zone。</p>
+      </div>
+      <div class="interactive-filter" id="sceneFilters">
+        <button type="button" class="scene-filter active" data-filter="all">全部</button>
+        <button type="button" class="scene-filter" data-filter="PK">PK / Exposure</button>
+        <button type="button" class="scene-filter" data-filter="QTc">QTc</button>
+        <button type="button" class="scene-filter" data-filter="Administration">Administration</button>
+        <button type="button" class="scene-filter" data-filter="Medication history">Medication history</button>
       </div>
       <div class="scene-grid" id="publicScenes"></div>
+      <div class="scene-detail" id="sceneDetail" aria-live="polite"></div>
       <div class="tool-grid" id="publicTools"></div>
     </div>
   </section>
@@ -592,25 +609,41 @@ updateUI(); setTimerUI(); pollSetup(); setupQuickNav();
   }));
 
   const sceneMap=[
-    ['Boosted PI','High-stakes','Ergot derivatives、PDE-5、rivaroxaban、ticagrelor、clopidogrel、simvastatin。'],
-    ['RPV','Absorption / QTc','PPI、antacid / H2RA、food、QTc stacking。'],
-    ['INSTI','PK / administration','Polyvalent cations，以及 DTG/BIC × metformin。'],
-    ['Long-acting','Reversibility','Depot 在體內，不能把停藥視為立即 undo。'],
-    ['CV','High stakes','Anticoagulant、antiplatelet、statin 與 boosted PI。'],
-    ['Steroid','Systemic exposure','Boosted PI × inhaled corticosteroid；RPV × dexamethasone。'],
-    ['PDE-5','Medication history','Sildenafil、tadalafil、dapoxetine 也要納入 history。'],
-    ['STI treatment','Short course ≠ no DDI','Doxycycline、azithromycin、metronidazole、tecovirimat。'],
-    ['DoxyPEP','Administration DDI','與 dairy、antacid、Ca / Fe / Mg / sodium bicarbonate 錯開。'],
-    ['ChemSex','Nonjudgmental history','GHB/GBL、benzodiazepines、opioids、methamphetamine、cocaine、MDMA。'],
-    ['Interaction checker','Tool ≠ answer','DHHS / NIH、EACS、Liverpool、label / PK data。']
+    ['Boosted PI','PK','Ergot derivatives、PDE-5、rivaroxaban、ticagrelor、clopidogrel、simvastatin。','CYP3A inhibition → concomitant drug exposure may rise.'],
+    ['RPV','QTc','PPI、antacid / H2RA、food、QTc stacking。','先分清 oral / IM，再檢查 acid suppression、food 與 QTc。'],
+    ['INSTI','PK','Polyvalent cations，以及 DTG/BIC × metformin。','Cheation 可能影響吸收；DTG/BIC 也可能改變 metformin exposure。'],
+    ['Long-acting','PK','Depot 在體內，不能把停藥視為立即 undo。','先問 interaction 的 reversibility 與 residual exposure。'],
+    ['CV','PK','Anticoagulant、antiplatelet、statin 與 boosted PI。','同一個 ART regimen 可能同時改變 bleeding、platelet effect 與 myopathy risk。'],
+    ['Steroid','PK','Boosted PI × inhaled corticosteroid；RPV × dexamethasone。','Systemic steroid exposure 或 RPV exposure 都可能被改變。'],
+    ['PDE-5','Medication history','Sildenafil、tadalafil、dapoxetine 也要納入 history。','問 PRN、網路購買與實際使用頻率，常比只問處方藥更有資訊。'],
+    ['STI treatment','QTc','Doxycycline、azithromycin、metronidazole、tecovirimat。','短療程也要檢查 exposure window 與其他藥的重疊。'],
+    ['DoxyPEP','Administration','與 dairy、antacid、Ca / Fe / Mg / sodium bicarbonate 錯開。','這是一個「怎麼吃」就能避免的 DDI 類型。'],
+    ['ChemSex','Medication history','GHB/GBL、benzodiazepines、opioids、methamphetamine、cocaine、MDMA。','Nonjudgmental history 本身就是 medication safety tool。'],
+    ['Interaction checker','PK','DHHS / NIH、EACS、Liverpool、label / PK data。','查詢工具提供資訊；仍要回到 mechanism、consequence 與 management。']
   ];
   const sceneWrap=root.querySelector('#publicScenes');
-  sceneMap.forEach(([title,flag,body],i)=>{
+  sceneMap.forEach(([title,flag,body,detail],i)=>{
     const card=document.createElement('article');
     card.className='scene-card';
+    card.dataset.filter=flag;
     card.innerHTML='<div class="ey">'+esc(String(i+1).padStart(2,'0'))+'</div><h3>'+esc(title)+'</h3><p>'+esc(body)+'</p><div class="flag">'+esc(flag)+'</div>';
+    card.addEventListener('click',()=>{
+      root.querySelectorAll('.scene-card').forEach(x=>x.classList.toggle('selected',x===card));
+      const panel=root.querySelector('#sceneDetail');
+      panel.innerHTML='<h3>'+esc(title)+'</h3><p>'+esc(detail)+'</p>';
+      panel.classList.add('show');
+    });
     sceneWrap.appendChild(card);
   });
+  root.querySelectorAll('#sceneFilters .scene-filter').forEach(btn=>btn.addEventListener('click',()=>{
+    const filter=btn.dataset.filter;
+    root.querySelectorAll('#sceneFilters .scene-filter').forEach(x=>x.classList.toggle('active',x===btn));
+    root.querySelectorAll('#publicScenes .scene-card').forEach(card=>{
+      const show=filter==='all'||card.dataset.filter===filter;
+      card.style.display=show?'block':'none';
+    });
+    root.querySelector('#sceneDetail').classList.remove('show');
+  }));
   const toolsWrap=root.querySelector('#publicTools');
   ['DHHS / NIH','EACS v13.0','Liverpool HIV DDI Checker','Label / PK data'].forEach((t,i)=>{
     const c=document.createElement('article'); c.className='tool-card'; c.innerHTML='<h3>'+esc(t)+'</h3><p>'+esc(['Guideline framework 與 treatment principles。','DDI tables + LA ART + substance/chemsex。','Individual drug-pair assessment。','High-stakes interaction 回看原始資料。'][i])+'</p>'; toolsWrap.appendChild(c);
