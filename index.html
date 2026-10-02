@@ -239,11 +239,17 @@ p { font-size: 18px; line-height: 1.65; }
   .scene-detail.show { display:block; }
   .scene-detail h3 { margin:0 0 8px; font-size:24px; }
   .scene-detail p { margin:0; color:#c2c9cf; font-size:14px; line-height:1.65; }
+  .hero-grid { display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); gap:36px; align-items:center; }
+  .hero-copy { min-width:0; }
+  .hero-art { width:100%; max-width:650px; margin:0 auto; }
+  .hero-art img { display:block; width:100%; height:auto; }
   @media (max-width: 980px) {
     .public-links { display:none; }
     .hero-meta,.framework-flow,.scene-grid,.tool-grid { grid-template-columns:1fr 1fr; }
     .finger-grid,.quiz-layout { grid-template-columns:1fr; }
   }
+    .hero-grid { grid-template-columns:1fr; gap:10px; }
+    .hero-art { max-width:560px; margin-top:10px; }
   @media (max-width: 640px) {
     .public-wrap { width:min(100% - 24px,1180px); }
     .public-hero { padding:58px 0 50px; }
@@ -269,20 +275,24 @@ p { font-size: 18px; line-height: 1.65; }
     </div>
   </nav>
   <section class="public-hero">
-    <div class="public-wrap">
-      <img class="public-hero-logo site-logo-img" alt="亞東紀念醫院 HIV 團隊插圖">
-      <div class="public-kicker">HIV × STI · Drug–Drug Interactions</div>
-      <h1>差一步就危險</h1>
-      <div class="subtitle">愛滋與性病治療常見藥物交互作用實戰解析</div>
-      <p class="micro-note">這是一個可以自己探索、點選、測驗與拆解病例的 HIV × STI DDI interactive learning site。</p>
-      <div class="hero-actions">
-        <a class="public-btn primary" href="#framework">開始學習 →</a>
-        <a class="public-btn" href="#case">直接挑戰 Final Case</a>
+    <div class="public-wrap hero-grid">
+      <div class="hero-copy">
+        <div class="public-kicker">HIV × STI · Drug–Drug Interactions</div>
+        <h1>差一步就危險</h1>
+        <div class="subtitle">愛滋與性病治療常見藥物交互作用實戰解析</div>
+        <p class="micro-note">這是一個可以自己探索、點選、測驗與拆解病例的 HIV × STI DDI interactive learning site。</p>
+        <div class="hero-actions">
+          <a class="public-btn primary" href="#framework">開始學習 →</a>
+          <a class="public-btn" href="#case">直接挑戰 Final Case</a>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-card"><div class="n">4</div><div class="l">ART fingerprints 可探索</div></div>
+          <div class="meta-card"><div class="n">11</div><div class="l">高風險 clinical scenes</div></div>
+          <div class="meta-card"><div class="n">7</div><div class="l">Final Case interactive steps</div></div>
+        </div>
       </div>
-      <div class="hero-meta">
-        <div class="meta-card"><div class="n">4</div><div class="l">ART fingerprints 可探索</div></div>
-        <div class="meta-card"><div class="n">11</div><div class="l">高風險 clinical scenes</div></div>
-        <div class="meta-card"><div class="n">7</div><div class="l">Final Case interactive steps</div></div>
+      <div class="hero-art">
+        <img src="assets/ddi-ribbon.svg" alt="紅絲帶、ART 與併用藥物的藥物交互作用意象圖" loading="eager">
       </div>
     </div>
   </section>
