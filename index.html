@@ -8,97 +8,641 @@
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; background:#111; }
-#app { min-height:100vh; width:100%; background-color:light-dark(#f4f1ec,#121315); color:light-dark(#222429,#f1f2f4); }
-.shell { min-height:100vh; display:grid; grid-template-rows:auto 1fr auto; }
-.topbar { display:flex; align-items:center; gap:12px; padding:12px 22px; border-bottom:1px solid light-dark(#d9d4cc,#2a2d31); background:light-dark(#faf8f4,#17191c); position:sticky; top:0; z-index:10; }
-.brand { font-weight:800; letter-spacing:.04em; }
-.badge,.key,.tag { border:1px solid light-dark(#c8c0b7,#393d42); border-radius:999px; padding:5px 9px; font-size:12px; }
-.top-spacer{flex:1}.timer{font-weight:900;font-variant-numeric:tabular-nums}.timer.running{color:light-dark(#9c2f2f,#f19a93)}
-.icon-btn,.ctrl,.nav-btn,.poll-btn{border:1px solid light-dark(#d2ccc4,#35393e);background:light-dark(#fffdfa,#1d2024);color:inherit;border-radius:10px;padding:8px 12px;cursor:pointer}
-.main{display:grid;grid-template-columns:minmax(0,1fr) 320px;min-height:0}
-.deck{min-width:0;min-height:0}.slide{padding:42px 56px 28px;overflow:auto;display:none}.slide.active{display:block}
-h1{font-size:clamp(42px,6vw,76px);line-height:1.04;margin:0 0 18px;letter-spacing:-.04em}
-h2{font-size:clamp(28px,3.3vw,46px);line-height:1.12;margin:0 0 22px}
-h3{font-size:22px;margin:0 0 10px}p{font-size:18px;line-height:1.65}.lead{font-size:clamp(22px,2.3vw,31px);line-height:1.45}
-.eyebrow{color:light-dark(#9c2f2f,#f19a93);font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
-.grid{display:grid;gap:16px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-.card,.step,.ref-item{padding:20px;border-radius:16px;background:light-dark(#fffdfa,#1c1f23);border:1px solid light-dark(#ded8cf,#30343a)}
-.danger{background:light-dark(#f8e5e0,#342022);border-color:light-dark(#e4bdb4,#6c3938)}
-.warn{background:light-dark(#f4ecd5,#312d20);border-color:light-dark(#dac68e,#655b38)}
-.soft{background:light-dark(#f8f5f0,#181a1e)}
-.big-number{font-size:44px;font-weight:900}.callout{margin-top:16px;padding:18px 20px;border-left:5px solid light-dark(#a8322f,#e27971);border-radius:10px;background:light-dark(#fffaf7,#21191a)}
-.workflow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.step{min-height:110px;padding:16px 12px}.step .n{font-weight:900;font-size:12px;opacity:.65}.step b{display:block;margin:5px 0 7px}
-.kpi{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px}.kpi .item{min-width:150px}.kpi .v{font-size:29px;font-weight:900}.kpi .l{font-size:12px;opacity:.65}
-.quick-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.nav-btn{border-radius:999px;font-weight:800}
-.poll-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.poll-btn{text-align:left;padding:17px 18px;font-size:17px;position:relative;overflow:hidden}.poll-btn .bar{position:absolute;inset:auto 0 0 0;height:4px;background:light-dark(#a8322f,#e27971);width:0;transition:width .2s}.count{float:right;opacity:.7;font-weight:800}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.answer{margin-top:16px;padding:20px;border-radius:16px;background:light-dark(#e9f1eb,#1c2c23);border:1px solid light-dark(#bfd6c3,#3d5a46);display:none}.answer.show{display:block}
-.reveal-block{padding:16px 18px;border-radius:12px;background:light-dark(#f6f3ee,#1a1d21);border:1px dashed light-dark(#cbc3b9,#3a3e45);margin-top:10px;display:none}.reveal-block.show{display:block}
-.notes-panel{border-left:1px solid light-dark(#d9d4cc,#2a2d31);background:light-dark(#fbfaf7,#17191c);padding:20px;overflow:auto}.notes-title{font-weight:900;margin-bottom:8px}.notes{font-size:14px;line-height:1.65}.notes-panel.hidden{display:none}
-.footer{display:flex;align-items:center;gap:12px;padding:10px 18px;border-top:1px solid light-dark(#d9d4cc,#2a2d31);background:light-dark(#faf8f4,#17191c)}.progress{flex:1;height:5px;background:light-dark(#e0dbd3,#2b2f34);border-radius:999px;overflow:hidden}.progress>div{height:100%;background:light-dark(#a8322f,#e27971);width:0;transition:width .2s}.slide-count{font-size:12px;opacity:.65;min-width:56px;text-align:right}
-@media(max-width:900px){.main{grid-template-columns:1fr}.notes-panel{display:none}.slide{padding:28px 24px 20px}.two,.three,.four,.poll-options{grid-template-columns:1fr}.workflow{grid-template-columns:1fr}.topbar{padding:10px 12px;flex-wrap:wrap}}
+body { font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; background: #111; }
+#app {
+  min-height: 100vh;
+  width: 100%;
+  background-color: light-dark(#f4f1ec, #121315);
+  color: light-dark(#222429, #f1f2f4);
+  overflow: hidden;
+}
+.shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+.topbar { display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-bottom: 1px solid light-dark(#d9d4cc,#2a2d31); background: light-dark(#faf8f4,#17191c); position: sticky; top: 0; z-index: 10; }
+.brand { font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+.badge { font-size: 12px; padding: 5px 9px; border-radius: 999px; border: 1px solid light-dark(#c8c0b7,#393d42); opacity: .8; }
+.top-spacer { flex: 1; }
+.icon-btn { border: 1px solid light-dark(#d2ccc4,#35393e); background: light-dark(#fffdfa,#1d2024); color: inherit; border-radius: 9px; padding: 7px 10px; cursor: pointer; }
+.icon-btn:hover { filter: brightness(1.06); }
+.main { display: grid; grid-template-columns: minmax(0,1fr) 320px; min-height: 0; }
+.deck { min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.slide { flex: 1; min-height: 0; padding: 42px 56px 28px; overflow: auto; display: none; }
+.slide.active { display: block; }
+.eyebrow { color: light-dark(#9c2f2f,#f19a93); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+h1 { font-size: clamp(42px, 6vw, 76px); line-height: 1.04; margin: 0 0 18px; letter-spacing: -.04em; }
+h2 { font-size: clamp(28px, 3.3vw, 46px); line-height: 1.12; margin: 0 0 22px; letter-spacing: -.03em; }
+h3 { font-size: 22px; margin: 0 0 10px; }
+p { font-size: 18px; line-height: 1.65; }
+.lead { font-size: clamp(22px, 2.3vw, 31px); line-height: 1.45; max-width: 1000px; }
+.small { font-size: 14px; opacity: .72; line-height: 1.5; }
+.source { font-size: 12px; opacity: .62; line-height: 1.45; margin-top: 18px; }
+.source a { color: inherit; }
+.grid { display: grid; gap: 16px; }
+.grid.two { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.grid.three { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.grid.four { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.card { padding: 20px; border-radius: 16px; background: light-dark(#fffdfa,#1c1f23); border: 1px solid light-dark(#ded8cf,#30343a); box-shadow: 0 8px 30px rgba(0,0,0,.06); }
+.card.soft { background: light-dark(#f8f5f0,#181a1e); box-shadow: none; }
+.big-number { font-size: 44px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+.tag { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 800; background: light-dark(#efe8df,#25292f); border: 1px solid light-dark(#d7cec4,#363b42); }
+.danger { background: light-dark(#f8e5e0,#342022); border-color: light-dark(#e4bdb4,#6c3938); }
+.warn { background: light-dark(#f4ecd5,#312d20); border-color: light-dark(#dac68e,#655b38); }
+.ok { background: light-dark(#e5f1e8,#1c2c22); border-color: light-dark(#bdd6c5,#3c5a46); }
+.list { margin: 0; padding-left: 1.1em; }
+.list li { margin: 8px 0; font-size: 17px; line-height: 1.5; }
+.timeline { display: grid; grid-template-columns: 96px 1fr; gap: 9px 18px; align-items: start; }
+.timeline .time { font-weight: 900; font-size: 14px; opacity: .75; }
+.callout { margin-top: 16px; padding: 18px 20px; border-left: 5px solid light-dark(#a8322f,#e27971); border-radius: 10px; background: light-dark(#fffaf7,#21191a); }
+.workflow { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; margin-top: 10px; }
+.workflow .step { padding: 16px 12px; border-radius: 12px; border: 1px solid light-dark(#ddd6cf,#343840); background: light-dark(#faf8f4,#1a1d21); min-height: 110px; }
+.step .n { font-weight: 900; font-size: 12px; opacity: .65; }
+.step b { display: block; margin: 5px 0 7px; }
+.fingerprint { min-height: 190px; }
+.fingerprint strong { font-size: 24px; display: block; margin: 8px 0; }
+.poll { max-width: 900px; }
+.poll-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin-top: 16px; }
+.poll-btn { text-align: left; padding: 17px 18px; border-radius: 14px; border: 1px solid light-dark(#d9d2ca,#35393f); background: light-dark(#fffdfa,#1b1e22); color: inherit; cursor: pointer; font-size: 17px; position: relative; overflow: hidden; }
+.poll-btn:hover { border-color: light-dark(#a69d93,#626973); }
+.poll-btn .bar { position: absolute; inset: auto 0 0 0; height: 4px; background: light-dark(#a8322f,#e27971); width: 0%; transition: width .25s ease; }
+.poll-btn .count { float: right; opacity: .7; font-weight: 800; }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.ctrl { border: 1px solid light-dark(#cfc8bf,#373b41); background: light-dark(#fffdfa,#1d2024); color: inherit; border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+.ctrl.primary { background: light-dark(#24262b,#f0f1f2); color: light-dark(#fff,#161719); border-color: transparent; }
+.answer { margin-top: 16px; padding: 20px; border-radius: 16px; background: light-dark(#e9f1eb,#1c2c23); border: 1px solid light-dark(#bfd6c3,#3d5a46); display: none; }
+.answer.show { display: block; }
+.reveal { margin-top: 18px; }
+.reveal-block { padding: 16px 18px; border-radius: 12px; background: light-dark(#f6f3ee,#1a1d21); border: 1px dashed light-dark(#cbc3b9,#3a3e45); margin-top: 10px; display: none; }
+.reveal-block.show { display: block; }
+.footer { display: flex; align-items: center; gap: 12px; padding: 10px 18px; border-top: 1px solid light-dark(#d9d4cc,#2a2d31); background: light-dark(#faf8f4,#17191c); }
+.progress { flex: 1; height: 5px; background: light-dark(#e0dbd3,#2b2f34); border-radius: 999px; overflow: hidden; }
+.progress > div { height: 100%; background: light-dark(#a8322f,#e27971); width: 0%; transition: width .25s ease; }
+.slide-count { font-size: 12px; opacity: .65; min-width: 56px; text-align: right; }
+.notes-panel { border-left: 1px solid light-dark(#d9d4cc,#2a2d31); background: light-dark(#fbfaf7,#17191c); padding: 20px; overflow: auto; }
+.notes-panel.hidden { display: none; }
+.notes-title { font-weight: 900; margin-bottom: 8px; }
+.notes { font-size: 14px; line-height: 1.65; }
+.notes ul { padding-left: 1.1em; margin: 8px 0; }
+.notes li { margin: 6px 0; }
+.timer { font-variant-numeric: tabular-nums; font-weight: 900; font-size: 16px; letter-spacing: .04em; min-width: 70px; text-align: center; }
+.timer.running { color: light-dark(#9c2f2f,#f19a93); }
+.key { font-size: 11px; padding: 3px 6px; border-radius: 5px; border: 1px solid light-dark(#d1cbc2,#393d43); opacity: .7; }
+.quote { font-size: clamp(26px,3.2vw,42px); line-height: 1.35; font-weight: 800; max-width: 1050px; letter-spacing: -.02em; }
+.ref-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.ref-item { padding: 14px 16px; border: 1px solid light-dark(#ded8d0,#30343a); border-radius: 12px; }
+.case-title { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
+.case-step { font-size: 12px; padding: 6px 9px; border-radius: 999px; background: light-dark(#eee7df,#272a30); border: 1px solid light-dark(#d5cdc3,#373b42); font-weight: 800; }
+.kpi { display:flex; gap: 18px; flex-wrap:wrap; margin-top: 18px; }
+.kpi .item { min-width: 150px; }
+.kpi .v { font-size: 29px; font-weight: 900; }
+.kpi .l { font-size: 12px; opacity: .65; }
+.quick-nav { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+.quick-nav .nav-btn { border:1px solid light-dark(#d2ccc4,#35393e); background:light-dark(#fffdfa,#1d2024); color:inherit; border-radius:999px; padding:10px 14px; cursor:pointer; font-weight:800; }
+.quick-nav .nav-btn:hover { filter:brightness(1.05); }
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; }
+  .notes-panel { display:none; }
+  .slide { padding: 28px 24px 20px; }
+  .grid.two, .grid.three, .grid.four, .poll-options, .ref-grid { grid-template-columns: 1fr; }
+  .workflow { grid-template-columns: 1fr; }
+  .topbar { padding: 10px 12px; }
+}
+</style>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #0d1117; }
+  #app { display: none !important; }
+  .public-site {
+    --ink:#eef2f5;
+    --muted:#9aa6b2;
+    --panel:#141b23;
+    --panel-2:#10161d;
+    --line:#2a3440;
+    --accent:#e36b5d;
+    --accent-soft:#3a211f;
+    --warm:#f3c97c;
+    --ok:#9fd0ad;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 80% -10%, rgba(227,107,93,.16), transparent 30rem),
+      radial-gradient(circle at 5% 15%, rgba(243,201,124,.08), transparent 24rem),
+      #0d1117;
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  }
+  .public-nav {
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    padding:14px clamp(18px,4vw,54px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(13,17,23,.86);
+    backdrop-filter:blur(16px);
+  }
+  .public-brand { font-weight:900; letter-spacing:.03em; white-space:nowrap; }
+  .public-links { display:flex; gap:8px; flex-wrap:wrap; }
+  .public-links a { color:var(--muted); text-decoration:none; padding:7px 9px; border-radius:8px; font-size:13px; }
+  .public-links a:hover { color:var(--ink); background:rgba(255,255,255,.06); }
+  .public-wrap { width:min(1180px,calc(100% - 36px)); margin:0 auto; }
+  .public-hero { padding:clamp(72px,12vw,150px) 0 84px; }
+  .public-kicker { color:var(--accent); font-size:13px; font-weight:900; letter-spacing:.16em; text-transform:uppercase; }
+  .public-hero h1 { font-size:clamp(54px,9vw,108px); line-height:.98; margin:14px 0 22px; letter-spacing:-.06em; max-width:900px; }
+  .public-hero .subtitle { color:#c7cfd7; font-size:clamp(20px,3vw,31px); line-height:1.45; max-width:900px; }
+  .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+  .public-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:1px solid var(--line); background:var(--panel); color:var(--ink); text-decoration:none; border-radius:12px; padding:12px 15px; font-weight:800; cursor:pointer; }
+  .public-btn.primary { background:var(--accent); color:#1b1010; border-color:transparent; }
+  .public-btn:hover { transform:translateY(-1px); }
+  .hero-meta { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:46px; max-width:900px; }
+  .meta-card { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(20,27,35,.75); }
+  .meta-card .n { font-size:28px; font-weight:900; }
+  .meta-card .l { color:var(--muted); font-size:12px; margin-top:4px; }
+  .public-section { padding:82px 0; scroll-margin-top:76px; }
+  .public-section.alt { background:rgba(255,255,255,.025); }
+  .section-head { display:flex; justify-content:space-between; gap:24px; align-items:end; margin-bottom:30px; }
+  .section-head h2 { font-size:clamp(32px,5vw,58px); line-height:1.04; margin:0; letter-spacing:-.04em; }
+  .section-head p { color:var(--muted); max-width:600px; margin:0; font-size:17px; line-height:1.65; }
+  .surface { border:1px solid var(--line); border-radius:22px; background:linear-gradient(180deg,rgba(20,27,35,.98),rgba(14,20,27,.98)); }
+  .surface.pad { padding:26px; }
+  .framework-flow { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; }
+  .flow-step { padding:18px 15px; border:1px solid var(--line); border-radius:16px; background:#10171f; }
+  .flow-step .num { color:var(--accent); font-size:12px; font-weight:900; }
+  .flow-step h3 { margin:8px 0 6px; font-size:19px; }
+  .flow-step p { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+  .finger-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:18px; align-items:stretch; }
+  .finger-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .finger-tab { border:1px solid var(--line); background:#0f151c; color:var(--muted); border-radius:999px; padding:10px 13px; font-weight:900; cursor:pointer; }
+  .finger-tab.active { color:var(--ink); background:var(--accent-soft); border-color:#6d3934; }
+  .finger-main { padding:24px; border:1px solid var(--line); border-radius:20px; background:#0f151c; }
+  .finger-label { color:var(--accent); font-size:12px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+  .finger-main h3 { font-size:32px; margin:8px 0 10px; }
+  .finger-main p { color:#c4cbd2; font-size:17px; line-height:1.65; }
+  .finger-kpi { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:18px; }
+  .finger-kpi > div { padding:13px; border:1px solid var(--line); border-radius:14px; background:#131b24; }
+  .finger-kpi b { display:block; font-size:11px; color:var(--muted); margin-bottom:6px; }
+  .finger-kpi span { font-weight:900; font-size:15px; }
+  .finger-visual { padding:24px; border-radius:20px; background:linear-gradient(145deg,#18222d,#111820); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; min-height:300px; }
+  .radar-ring { width:min(300px,80%); aspect-ratio:1; border-radius:50%; border:1px dashed #465261; position:relative; display:grid; place-items:center; }
+  .radar-ring:before,.radar-ring:after { content:""; position:absolute; inset:18%; border:1px dashed #37424e; border-radius:50%; }
+  .radar-ring:after { inset:36%; }
+  .radar-core { width:88px; height:88px; border-radius:50%; background:var(--accent); color:#1b1010; display:grid; place-items:center; text-align:center; font-weight:900; position:relative; z-index:2; }
+  .radar-node { position:absolute; padding:8px 10px; background:#0f151c; border:1px solid var(--line); border-radius:10px; font-size:11px; font-weight:900; color:#cbd2d8; }
+  .radar-node.n1{top:4%;left:50%;transform:translateX(-50%)} .radar-node.n2{right:1%;top:48%} .radar-node.n3{bottom:8%;left:50%;transform:translateX(-50%)} .radar-node.n4{left:1%;top:48%}
+  .scene-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  .scene-card { padding:20px; min-height:190px; border:1px solid var(--line); border-radius:18px; background:#111820; }
+  .scene-card .ey { color:var(--muted); font-size:11px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+  .scene-card h3 { margin:8px 0 8px; font-size:23px; }
+  .scene-card p { margin:0; color:#b8c0c8; font-size:14px; line-height:1.6; }
+  .scene-card .flag { display:inline-block; margin-top:13px; padding:5px 8px; border:1px solid #62403b; background:#251917; color:#efb0a7; border-radius:999px; font-size:11px; font-weight:800; }
+  .tool-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:20px; }
+  .tool-card { padding:17px; border:1px solid var(--line); border-radius:15px; background:#10171f; }
+  .tool-card h3 { margin:0 0 7px; font-size:18px; }
+  .tool-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.5; }
+  .quiz-layout { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; }
+  .quiz-card { padding:26px; border:1px solid var(--line); border-radius:20px; background:#111820; }
+  .quiz-card h3 { font-size:30px; margin:0 0 12px; }
+  .quiz-card p { color:#c1c8cf; font-size:16px; line-height:1.65; }
+  .quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px; }
+  .quiz-option { text-align:left; padding:14px; border:1px solid var(--line); background:#0f151c; color:var(--ink); border-radius:13px; cursor:pointer; }
+  .quiz-option.selected { border-color:#7b4741; background:#251817; }
+  .quiz-answer { margin-top:14px; padding:15px; border-radius:14px; border:1px solid #385743; background:#122118; color:#cfe4d3; display:none; line-height:1.55; }
+  .quiz-answer.show { display:block; }
+  .case-rail { position:relative; padding:6px 0 0; }
+  .case-rail:before { content:""; position:absolute; left:17px; top:18px; bottom:18px; width:2px; background:#29333e; }
+  .case-step-card { position:relative; display:grid; grid-template-columns:36px 1fr; gap:14px; margin:0 0 16px; }
+  .case-dot { width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background:#18212b; border:1px solid #3a4653; color:var(--accent); font-weight:900; position:relative; z-index:1; }
+  .case-body { padding:17px 18px; border:1px solid var(--line); border-radius:16px; background:#10171f; }
+  .case-body h3 { margin:0 0 7px; font-size:19px; }
+  .case-body p { margin:0; color:#bac3cb; font-size:14px; line-height:1.6; }
+  .reveal-btn { margin-top:11px; border:1px solid var(--line); background:#151e28; color:var(--ink); border-radius:10px; padding:8px 11px; font-weight:800; cursor:pointer; }
+  .reveal-text { margin-top:10px; padding:12px; border-left:3px solid var(--accent); color:#d9dfe4; background:#151c24; border-radius:8px; display:none; font-size:13px; line-height:1.6; }
+  .reveal-text.show { display:block; }
+  .take-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  .take-card { padding:22px; border:1px solid var(--line); border-radius:18px; background:#111820; }
+  .take-card .n { color:var(--accent); font-size:12px; font-weight:900; }
+  .take-card h3 { font-size:21px; margin:8px 0 0; }
+  .reference-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .reference-card { padding:18px; border:1px solid var(--line); border-radius:15px; background:#10171f; }
+  .reference-card h3 { margin:0 0 7px; font-size:18px; }
+  .reference-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
+  .reference-card a { color:#f0b6ad; }
+  .public-footer { padding:44px 0 60px; color:var(--muted); font-size:13px; border-top:1px solid rgba(255,255,255,.08); }
+  .micro-note { margin-top:14px; color:#73808c; font-size:12px; line-height:1.5; }
+  @media (max-width: 980px) {
+    .public-links { display:none; }
+    .hero-meta,.framework-flow,.scene-grid,.tool-grid { grid-template-columns:1fr 1fr; }
+    .finger-grid,.quiz-layout { grid-template-columns:1fr; }
+  }
+  @media (max-width: 640px) {
+    .public-wrap { width:min(100% - 24px,1180px); }
+    .public-hero { padding:58px 0 50px; }
+    .hero-meta,.framework-flow,.scene-grid,.tool-grid,.finger-kpi,.quiz-options,.take-grid,.reference-grid { grid-template-columns:1fr; }
+    .public-nav { padding:12px; }
+    .public-brand { font-size:14px; }
+    .section-head { display:block; }
+    .section-head p { margin-top:12px; }
+    .radar-ring { width:230px; }
+  }
 </style>
 </head>
 <body>
-<div id="app"><div class="shell">
-<header class="topbar"><div class="brand">差一步就危險｜HIV × STI DDI 實戰解析</div><span class="badge">35 MIN · Presenter Edition</span><div class="top-spacer"></div><div id="timer" class="timer">35:00</div><button class="icon-btn" id="notesToggle">講者模式 <span class="key">P</span></button><button class="icon-btn" id="fullscreenBtn">全螢幕 <span class="key">F</span></button><button class="icon-btn" id="startBtn">開始演講 <span class="key">S</span></button></header>
-<main class="main"><section class="deck" id="deck"></section><aside class="notes-panel" id="notesPanel"><div class="notes-title">講者備忘</div><div class="notes" id="notes"></div></aside></main>
-<footer class="footer"><button class="ctrl" id="prevBtn">← 上一頁</button><button class="ctrl" id="nextBtn">下一頁 →</button><div class="progress"><div id="progressBar"></div></div><div class="slide-count" id="slideCount">1 / 1</div><button class="ctrl" id="resetPolls">重設本頁投票</button></footer>
-</div></div>
+<main class="public-site" id="publicSite">
+  <nav class="public-nav">
+    <div class="public-brand">差一步就危險</div>
+    <div class="public-links">
+      <a href="#framework">DDI Framework</a>
+      <a href="#fingerprints">ART fingerprints</a>
+      <a href="#scenes">高風險場景</a>
+      <a href="#case">Final Case</a>
+      <a href="#references">References</a>
+    </div>
+  </nav>
+  <section class="public-hero">
+    <div class="public-wrap">
+      <div class="public-kicker">HIV × STI · Drug–Drug Interactions</div>
+      <h1>差一步就危險</h1>
+      <div class="subtitle">愛滋與性病治療常見藥物交互作用實戰解析</div>
+      <p class="micro-note">把一場 35 分鐘演講，轉成可以獨立閱讀、操作、思考的臨床教學網站。內容以既有 62 頁教材與目前網站版本為骨架。</p>
+      <div class="hero-actions">
+        <a class="public-btn primary" href="#framework">開始學習 →</a>
+        <a class="public-btn" href="#case">直接挑戰 Final Case</a>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-card"><div class="n">4</div><div class="l">ART fingerprints</div></div>
+        <div class="meta-card"><div class="n">5</div><div class="l">DDI clinical thinking steps</div></div>
+        <div class="meta-card"><div class="n">1</div><div class="l">完整 Final Case</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section alt" id="framework">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>先學會怎麼想。</h2></div>
+        <p>DDI 不只是「有沒有 interaction」。真正臨床需要的是：辨認 → 理解 → 預測後果 → 處理 → 追蹤。</p>
+      </div>
+      <div class="surface pad">
+        <div class="framework-flow">
+          <div class="flow-step"><div class="num">01</div><h3>Recognize</h3><p>ART regimen、culprit drug、vulnerable patient。</p></div>
+          <div class="flow-step"><div class="num">02</div><h3>Mechanism</h3><p>PK、PD、CYP、UGT、transporter、absorption。</p></div>
+          <div class="flow-step"><div class="num">03</div><h3>Consequence</h3><p>Toxicity、loss of efficacy、resistance、disease event。</p></div>
+          <div class="flow-step"><div class="num">04</div><h3>Action</h3><p>Avoid、substitute、dose-adjust、separate、monitor。</p></div>
+          <div class="flow-step"><div class="num">05</div><h3>Follow-up</h3><p>症狀、lab、drug level、viral load。</p></div>
+        </div>
+        <div class="micro-note">核心問題：不是「兩個藥能不能一起用」，而是「這個病人同時有這兩個藥，風險與 benefit 是什麼？」</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section" id="fingerprints">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>四個 ART fingerprints。</h2></div>
+        <p>看到 ART 名稱時，先把自己的 DDI radar 打開。點選不同 fingerprint，右側會跟著改變。</p>
+      </div>
+      <div class="finger-tabs" id="publicFingerTabs">
+        <button class="finger-tab active" data-fp="booster">Booster</button>
+        <button class="finger-tab" data-fp="rpv">RPV</button>
+        <button class="finger-tab" data-fp="insti">INSTI</button>
+        <button class="finger-tab" data-fp="la">Long-acting</button>
+      </div>
+      <div class="finger-grid">
+        <div class="finger-main">
+          <div class="finger-label">Clinical radar</div>
+          <h3 id="publicFpTitle">Booster｜DRV/c、DRV/r</h3>
+          <p id="publicFpBody">先想 CYP3A inhibition，再掃描 ergot derivatives、PDE-5 inhibitors、部分 anticoagulant / antiplatelet / statin / antiarrhythmic。</p>
+          <div class="finger-kpi">
+            <div><b>Mechanism</b><span id="publicFpM">CYP3A inhibition</span></div>
+            <div><b>Risk direction</b><span id="publicFpR">Exposure ↑</span></div>
+            <div><b>First question</b><span id="publicFpA">Avoid / Adjust</span></div>
+          </div>
+        </div>
+        <div class="finger-visual" aria-label="DDI radar schematic">
+          <div class="radar-ring">
+            <div class="radar-core">DDI<br>RADAR</div>
+            <div class="radar-node n1">Mechanism</div>
+            <div class="radar-node n2">Drug</div>
+            <div class="radar-node n3">Action</div>
+            <div class="radar-node n4">Consequence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section alt" id="scenes">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>真正容易「差一步」的臨床場景。</h2></div>
+        <p>把投影片裡的 high-risk topics 重新整理成公開網站可快速掃描的 clinical cards。</p>
+      </div>
+      <div class="scene-grid" id="publicScenes"></div>
+      <div class="tool-grid" id="publicTools"></div>
+    </div>
+  </section>
+
+  <section class="public-section" id="miniCase">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>30 秒自我測驗。</h2></div>
+        <p>有 DDI，不等於一定禁止併用。先自己做判斷，再看 rationale。</p>
+      </div>
+      <div class="quiz-layout">
+        <div class="quiz-card">
+          <div class="public-kicker">Mini-case</div>
+          <h3>DTG + metformin：怎麼處理？</h3>
+          <p>患者穩定使用 DTG 50 mg QD，新診斷 diabetes，準備開始 metformin。</p>
+          <div class="quiz-options" id="miniQuiz">
+            <button class="quiz-option" data-answer="A">A．完全不用查</button>
+            <button class="quiz-option" data-answer="B">B．可併用，但留意 metformin exposure 與 renal function</button>
+            <button class="quiz-option" data-answer="C">C．一定要停 DTG</button>
+            <button class="quiz-option" data-answer="D">D．只有高劑量才需要注意</button>
+          </div>
+          <div class="quiz-answer" id="miniAnswer"><b>B 的方向最接近臨床處理。</b><br>重點不是看到 DDI 就停 ART，而是依 renal function、metformin dose 與 tolerance 做個別化管理。</div>
+        </div>
+        <div class="surface pad">
+          <div class="public-kicker">Why it matters</div>
+          <h3 style="font-size:28px;margin:8px 0">DDI 有時是「另一個藥」的問題。</h3>
+          <p style="color:#b8c0c8;line-height:1.7">不要只問 metformin 會不會影響 DTG。也要問：DTG 會不會改變 metformin exposure？</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section alt" id="case">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>Final Case：真的只是 headache 嗎？</h2></div>
+        <p>沿著時間軸往下讀。每一步都先做自己的 clinical reasoning，再揭露下一幕。</p>
+      </div>
+      <div class="case-rail" id="publicCase"></div>
+    </div>
+  </section>
+
+  <section class="public-section" id="takehome">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>最後帶走四句話。</h2></div>
+        <p>這些不是 interaction table，而是一套可以每天帶進門診的 mental checklist。</p>
+      </div>
+      <div class="take-grid">
+        <div class="take-card"><div class="n">01</div><h3>ART 可以簡化，但 DDI 不會自己消失。</h3></div>
+        <div class="take-card"><div class="n">02</div><h3>先看 ART fingerprint：Booster、RPV、INSTI、Long-acting。</h3></div>
+        <div class="take-card"><div class="n">03</div><h3>不要只問「有沒有 interaction」；要問「會出什麼事、怎麼處理」。</h3></div>
+        <div class="take-card"><div class="n">04</div><h3>PRN、OTC、supplement、STI treatment、chemsex 都是 medication history。</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-section alt" id="references">
+    <div class="public-wrap">
+      <div class="section-head">
+        <div><h2>References & tools.</h2></div>
+        <p>公開網站版把參考資料放在內容最後，方便讀者往回查。</p>
+      </div>
+      <div class="reference-grid">
+        <div class="reference-card"><h3>DHHS / NIH</h3><p>Guidelines for the Use of Antiretroviral Agents in Adults and Adolescents With HIV · Updated Sep 24, 2026</p></div>
+        <div class="reference-card"><h3>EACS v13.0</h3><p>Ambrosioni J, et al. HIV Med. 2026;27(1):18–32. DOI 10.1111/hiv.70120</p></div>
+        <div class="reference-card"><h3>CDC DoxyPEP</h3><p>Bachmann LH, et al. MMWR Recomm Rep. 2024;73(RR-2):1–8. DOI 10.15585/mmwr.rr7302a1</p></div>
+        <div class="reference-card"><h3>Ergotamine case</h3><p>Marine L, et al. Circulation. 2011;124:1395–1397. DOI 10.1161/CIRCULATIONAHA.111.020586</p></div>
+        <div class="reference-card"><h3>DTG × metformin</h3><p>Dolutegravir–metformin pharmacokinetic study，原教材 page 35–36。</p></div>
+        <div class="reference-card"><h3>Liverpool HIV DDI Checker</h3><p>Individual drug-pair assessment resource；正式版可在此連結出去。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="public-footer">
+    <div class="public-wrap">
+      <strong style="color:#dfe5ea">張維倫（小風）藥師</strong> · 亞東紀念醫院 藥學部｜感染科臨床藥師
+      <div class="micro-note">此網站是臨床教育材料，不取代個別病人的處方判斷；具體 DDI 處置仍應回到 current guideline、product label 與 individual interaction check。</div>
+    </div>
+  </footer>
+</main>
+<div id="app">
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">差一步就危險｜HIV × STI DDI 實戰解析</div>
+    <span class="badge">35 MIN · Presenter Edition</span>
+    <div class="top-spacer"></div>
+    <div id="timer" class="timer">35:00</div>
+    <button class="icon-btn" id="notesToggle">講者模式 <span class="key">P</span></button>
+    <button class="icon-btn" id="fullscreenBtn">全螢幕 <span class="key">F</span></button>
+    <button class="icon-btn" id="startBtn">開始演講 <span class="key">S</span></button>
+  </header>
+  <main class="main">
+    <section class="deck" id="deck"></section>
+    <aside class="notes-panel" id="notesPanel">
+      <div class="notes-title">講者備忘</div>
+      <div class="notes" id="notes"></div>
+      <div class="source" id="slideSource"></div>
+    </aside>
+  </main>
+  <footer class="footer">
+    <button class="ctrl" id="prevBtn">← 上一頁</button>
+    <button class="ctrl primary" id="nextBtn">下一頁 →</button>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="slide-count" id="slideCount">1 / 1</div>
+    <button class="ctrl" id="resetPolls">重設本頁投票</button>
+  </footer>
+</div>
+</div>
 <script>
-const slides=[
-{html:`<div class="eyebrow">亞東紀念醫院 藥學部｜感染科</div><h1>差一步就危險</h1><p class="lead">愛滋與性病治療常見藥物交互作用實戰解析</p><div class="kpi"><div class="item"><div class="v">35 min</div><div class="l">研討會演講</div></div><div class="item"><div class="v">HIV × STI</div><div class="l">從 ART 到 ChemSex</div></div><div class="item"><div class="v">Case Q&A</div><div class="l">最後 4 分鐘互動驗收</div></div></div><div class="callout"><b>張維倫（小風）藥師</b><br>亞東紀念醫院 藥學部｜感染科臨床藥師</div><div class="quick-nav"><button class="nav-btn" data-goto="4">先看 DDI Framework</button><button class="nav-btn" data-goto="5">認識 4 個 ART fingerprints</button><button class="nav-btn" data-goto="11">看高風險臨床場景</button><button class="nav-btn" data-goto="19">直接挑戰 Final Case</button></div>`,notes:'開場：今天不是背 interaction table，而是練習什麼時候想到 DDI、想到後怎麼處理。'},
-{html:`<h2>35 分鐘，不做 DDI 大全</h2><div class="workflow"><div class="step"><b>0–3 min</b>Opening</div><div class="step"><b>3–7 min</b>DDI Framework</div><div class="step"><b>7–11 min</b>4 fingerprints</div><div class="step"><b>11–22 min</b>高風險場景</div><div class="step"><b>22–35 min</b>STI × ChemSex × Final Case</div></div>`,notes:'路線：前 30 分鐘教方法，最後 5 分鐘讓 audience 自己判斷。'},
-{html:`<div class="eyebrow">Opening Poll</div><h2>看到 HIV patient 開始新藥，你第一個反應是什麼？</h2><div class="poll" data-poll="opening"><div class="poll-options"><button class="poll-btn">A．先確認 ART regimen<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．先看 renal / hepatic function<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．先看 CYP substrate / inhibitor<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．完整 medication history<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="openingA">揭示今天的方向</button></div><div id="openingA" class="answer"><b>今天的核心不是四選一。</b><br>完整 medication history → ART fingerprint → high-stakes drug → benefit/risk → management → monitoring。</div></div>`,notes:'目的：讓 audience 開始思考 DDI 是 medication list 與 ART regimen recognition 的問題。'},
-{html:`<h2>ART 處方簡化 ≠ DDI 消失</h2><div class="grid three"><div class="card"><div class="big-number">01</div><h3>Longer lifespan</h3><p>HIV care 進入長期慢性病照護，comorbidity 增加。</p></div><div class="card"><div class="big-number">02</div><h3>Additional medications</h3><p>CV、metabolic、CNS、steroid、STI treatment 等藥物逐步加入。</p></div><div class="card danger"><div class="big-number">03</div><h3>DDI consequence</h3><p>Exposure ↑/↓ → toxicity、treatment failure、therapeutic response 改變。</p></div></div>`,notes:'沿用原教材 page 5–9 的故事線。'},
-{html:`<h2>看到 interaction，下一句要問什麼？</h2><div class="workflow"><div class="step"><div class="n">01</div><b>Recognize</b>ART regimen / risky drug / vulnerable patient</div><div class="step"><div class="n">02</div><b>Mechanism</b>PK？PD？CYP？UGT？transporter？</div><div class="step"><div class="n">03</div><b>Consequence</b>toxicity / loss of efficacy / resistance / disease event</div><div class="step"><div class="n">04</div><b>Action</b>avoid / substitute / dose-adjust / separate / monitor</div><div class="step"><div class="n">05</div><b>Follow-up</b>症狀、lab、drug level、viral load</div></div><div class="callout"><b>Risk × Benefit</b><br>同時有兩個藥 vs. 沒有其中一個藥，各自帶來什麼風險？</div>`,notes:'全場最重要的 framework。interaction checker 提供資料，臨床決策仍是 patient-specific。'},
-{html:`<h2>4 個 ART fingerprints</h2><div class="grid four"><div class="card danger"><span class="tag">Booster</span><h3>DRV/c、DRV/r</h3><p>CYP3A inhibition。</p></div><div class="card warn"><span class="tag">RPV</span><h3>Oral / IM</h3><p>胃酸、food、QTc。</p></div><div class="card"><span class="tag">INSTI</span><h3>DTG / BIC</h3><p>Polyvalent cation、metformin。</p></div><div class="card"><span class="tag">Long-acting</span><h3>CAB/RPV / LEN</h3><p>Persistent exposure。</p></div></div><div class="quick-nav"><button class="nav-btn" data-fp="booster">Booster</button><button class="nav-btn" data-fp="rpv">RPV</button><button class="nav-btn" data-fp="insti">INSTI</button><button class="nav-btn" data-fp="la">Long-acting</button></div><div class="card" id="fpPanel" style="margin-top:16px"><h3 id="fpTitle">Booster｜DRV/c、DRV/r</h3><p id="fpBody">先想 CYP3A inhibition，再掃描 ergot derivatives、PDE-5 inhibitors、部分 anticoagulant / antiplatelet / statin / antiarrhythmic。</p></div>`,notes:'網站版互動：點選 fingerprint，直接顯示臨床先想到的問題。'},
-{html:`<h2>看到 COBI / RTV，先想 CYP3A4</h2><div class="grid two"><div class="card danger"><h3>Ergot derivatives</h3><p>ergotamine / dihydroergotamine → vasospasm、ischemia、ergot toxicity。</p></div><div class="card"><h3>Clinical traps</h3><p>PDE-5 inhibitors、rivaroxaban、ticagrelor、clopidogrel、simvastatin、部分 antiarrhythmics。</p></div></div>`,notes:'看 ART 名稱先拆成 active drug + booster。'},
-{html:`<h2>RPV：胃酸 + food + QTc</h2><div class="grid three"><div class="card danger"><h3>Oral RPV + PPI</h3><p>胃酸抑制降低 oral RPV exposure。</p></div><div class="card warn"><h3>Antacid / H2RA</h3><p>需要依時間錯開。</p></div><div class="card"><h3>QTc</h3><p>注意 azithromycin、amiodarone、dronedarone 等 stacking。</p></div></div>`,notes:'同一個成分，不同 dosage form，interaction profile 也可能不同。'},
-{html:`<h2>INSTI：interaction 有時不是 ART 出事</h2><div class="grid two"><div class="card"><h3>Polyvalent cations</h3><p>Ca、Mg、Al、Fe 可與 oral INSTIs chelation，影響吸收。</p></div><div class="card warn"><h3>Metformin</h3><p>DTG / BIC 可增加 metformin exposure。</p></div></div><div class="kpi"><div class="item"><div class="v">DTG + metformin</div><div class="l">AUC 約 +79%</div></div><div class="item"><div class="v">BIC + metformin</div><div class="l">AUC 約 +39%</div></div></div>`,notes:'不要只問 metformin 會不會影響 DTG，也要問 DTG 會不會改變 metformin exposure。'},
-{html:`<h2>Long-acting：interaction 不一定停藥就結束</h2><div class="grid two"><div class="card"><h3>Oral ART</h3><p>調整 culprit drug / regimen 後，exposure 可隨時間下降。</p></div><div class="card danger"><h3>LA ART</h3><p>depot 已在體內，需要從 half-life 與持續暴露時間思考。</p></div></div>`,notes:'重點是 reversibility。'},
-{html:`<div class="eyebrow">Mini-case</div><h2>DTG + metformin：要做什麼？</h2><p class="lead">穩定使用 DTG 50 mg QD，新診斷 diabetes，準備開始 metformin。</p><div class="poll" data-poll="metformin"><div class="poll-options"><button class="poll-btn">A．完全不用查<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．可以併用，但留意 metformin exposure 與 renal function<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．一定要停 DTG<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．只有高劑量才要注意<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="metA">揭示重點</button></div><div id="metA" class="answer"><b>B</b><br>有 DDI 不等於一定禁止併用；依 renal function、劑量與耐受性個別化。</div></div>`,notes:'練習「有 DDI ≠ 禁止併用」。'},
-{html:`<h2>Booster × CV：一次看到三種風險</h2><div class="grid three"><div class="card danger"><h3>Bleeding</h3><p>PI/booster + rivaroxaban。</p></div><div class="card warn"><h3>Platelet effect</h3><p>ticagrelor effect ↑；clopidogrel activation ↓。</p></div><div class="card"><h3>Myopathy</h3><p>Boosted PI 與 simvastatin 等。</p></div></div>`,notes:'重點是 interaction management，不是單純比較哪個藥最好。'},
-{html:`<h2>吸的、吃的、打的 steroid，都可能是 DDI</h2><div class="grid two"><div class="card danger"><h3>Boosted PI × inhaled corticosteroid</h3><p>Systemic steroid exposure ↑，可增加 Cushing syndrome / adrenal suppression risk。</p></div><div class="card warn"><h3>RPV × dexamethasone</h3><p>Dexamethasone 可誘導 CYP3A，降低 RPV exposure。</p></div></div>`,notes:'具體處置依 current guideline / label / individual check。'},
-{html:`<h2>「性功能藥」也是 medication history</h2><div class="grid three"><div class="card danger"><h3>Sildenafil</h3><p>Boosted PI 可增加 exposure。</p></div><div class="card"><h3>Tadalafil</h3><p>依 indication 與 regimen 個別調整。</p></div><div class="card warn"><h3>Dapoxetine</h3><p>強 CYP3A inhibition 可能增加 exposure。</p></div></div>`,notes:'問：助興？壯陽？網路買的？偶爾吃？'},
-{html:`<h2>STI treatment：interaction 也會藏在短療程裡</h2><div class="grid four"><div class="card"><h3>Doxycycline</h3><p>cation / antacid / supplement 錯開。</p></div><div class="card warn"><h3>Azithromycin</h3><p>QTc stacking。</p></div><div class="card"><h3>Metronidazole</h3><p>warfarin / alcohol。</p></div><div class="card danger"><h3>Tecovirimat</h3><p>CYP2C19/2C8 inhibition + CYP3A induction。</p></div></div>`,notes:'短療程不等於沒有 DDI。'},
-{html:`<h2>DoxyPEP：administration DDI</h2><div class="grid two"><div class="card"><h3>200 mg within 72 h</h3><p>CDC 2024 建議符合條件者 shared decision-making。</p></div><div class="card danger"><h3>錯開 cation</h3><p>與 dairy、antacid、Ca / Fe / Mg / sodium bicarbonate 至少錯開 2 小時。</p></div></div>`,notes:'把重點拉回藥師的 DDI / administration counseling。'},
-{html:`<h2>最後一個 medication list：ChemSex</h2><div class="grid three"><div class="card"><h3>Depressant</h3><p>GHB / GBL、benzodiazepines、opioids。</p></div><div class="card warn"><h3>Stimulant</h3><p>Methamphetamine、cocaine、MDMA。</p></div><div class="card danger"><h3>Unknown</h3><p>來源不明 / 成分不純。</p></div></div><p class="lead">「你問『有沒有吃藥？』，病人理解的可能只有『處方藥』。」</p>`,notes:'維持 nonjudgmental，重點是 medication safety。'},
-{html:`<h2>Interaction checker 是工具，不是答案</h2><div class="grid four"><div class="card"><h3>DHHS / NIH</h3><p>Guideline framework。</p></div><div class="card"><h3>EACS v13.0</h3><p>DDI + LA ART + substance use。</p></div><div class="card"><h3>Liverpool HIV</h3><p>Drug-pair assessment。</p></div><div class="card"><h3>Label / PK</h3><p>High-stakes interaction 回看原始資料。</p></div></div><div class="callout"><b>查詢順序：</b>ART regimen → culprit drug → mechanism → magnitude → consequence → management → monitoring。</div>`,notes:'這一張可作為公開網站的資源入口。'},
-{html:`<div class="eyebrow">Take-home Message</div><h2>四句話，帶回明天的門診</h2><div class="grid two"><div class="card"><h3>01｜ART 可以簡化，但 DDI 不會自己消失。</h3></div><div class="card"><h3>02｜先看 ART fingerprint：Booster、RPV、INSTI、Long-acting。</h3></div><div class="card"><h3>03｜不要只問「有沒有 interaction」；要問「會出什麼事、怎麼處理」。</h3></div><div class="card danger"><h3>04｜PRN、OTC、supplement、STI treatment、chemsex 都是 medication history。</h3></div></div>`,notes:'停一下，準備最後案例。'},
-{html:`<div class="case-title"><span class="tag">FINAL CASE · 4 min</span><h2>最後一關：真的只是 headache 嗎？</h2></div><div class="grid two"><div class="card"><h3>39 y/o Male</h3><p>Multiple drug-resistant HIV<br>Prezcobix (DRV/c) + DTG × 4 years<br>HTN / HLP / Migraine</p></div><div class="card"><h3>今天</h3><p>Headache + nausea + chest tightness<br><b>Day 1</b></p></div></div><div class="reveal"><button class="ctrl" data-reveal="case1">揭露下一幕</button><div id="case1" class="reveal-block"><b>11:30</b> E4V5M6；TPR 36.1/53/18；BP 130/85；SpO2 99%<br><br><b>你現在最想再問哪一件事？</b></div></div>`,notes:'第一幕不要提示 ergotamine。'},
-{html:`<div class="eyebrow">Case Q1</div><h2>你現在最想再問什麼？</h2><div class="poll" data-poll="q1"><div class="poll-options"><button class="poll-btn">A．最近 HIV viral load<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．PRN / OTC / local clinic medication<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．pitavastatin adherence<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．今天有沒有吃早餐<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="q1a">揭示答案</button></div><div id="q1a" class="answer"><b>答案：B</b><br>問近期 migraine 處理、PRN、OTC、保健品與 substance use。</div></div>`,notes:'這題考 history taking。'},
-{html:`<div class="eyebrow">Case Q2</div><h2>多透露一點</h2><div class="card"><p>Local clinic prescribed <b>NSAID + ergotamine PRN</b>，共開 3 doses。</p><p>病人實際只吃了 <b>ONE dose ergotamine</b>，之後馬上服用 HAART。</p></div><div class="poll" data-poll="q2"><div class="poll-options"><button class="poll-btn">A．只有 chronic use 才危險<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．DRV/c 可讓 ergotamine exposure 大幅上升<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．DTG 是主要 culprit<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．主要是 NSAID<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="q2a">揭示答案</button></div><div id="q2a" class="answer"><b>答案：B</b><br>Boosted PI × ergot derivatives 是 high-stakes DDI；只吃一顆不能排除風險。</div></div>`,notes:'「差一步」的第一個 punchline。'},
-{html:`<div class="eyebrow">Case Q3</div><h2>事情開始失控</h2><div class="card"><p>12:41：generalized tonic-clonic-like convulsions</p><p>12:45：pulse 不可測 → CPR</p><p>12:48：VF → defibrillation</p><p>12:51：amiodarone 300 mg IV</p></div><div class="poll" data-poll="q3"><div class="poll-options"><button class="poll-btn">A．ART efficacy 問題<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．ACS<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．Drug-induced vasospasm / ergot toxicity<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．Pitavastatin toxicity<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="q3a">揭示重點</button></div><div id="q3a" class="answer"><b>高度懷疑 ergot-related vasospasm。</b></div></div>`,notes:'先讓大家想 ACS vs vasospasm。'},
-{html:`<div class="eyebrow">Case Q4</div><h2>CAG 結果</h2><div class="grid two"><div class="card"><h3>Coronary angiography</h3><p>LMCA：luminal irregularity<br>LAD：40–50% eccentric stenosis + diffuse spasm<br>LCX：diffuse spasm<br>RCA：30–40% + diffuse spasm</p></div><div class="card danger"><h3>Diagnosis</h3><p><b>Insignificant CAD</b><br><b>Coronary spasm</b><br>IHCA s/p ACLS with ROSC</p></div></div><div class="poll" data-poll="q4"><div class="poll-options"><button class="poll-btn">A．Plaque rupture ACS<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．Ergotism-associated coronary vasospasm<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．DTG neurotoxicity<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．NSAID renal toxicity<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="q4a">揭示答案</button></div><div id="q4a" class="answer"><b>答案：B</b><br>Ergot derivatives 可造成 arterial constriction；冠狀動脈痙攣是病例核心表現。</div></div>`,notes:'攤出 vasospasm 的客觀證據。'},
-{html:`<div class="eyebrow">Case Q5</div><h2>第一個 DDI 找到了，事情真的結束了嗎？</h2><div class="card"><p><b>DAPT：aspirin + ticagrelor</b><br><b>Heparin infusion</b></p></div><div class="poll" data-poll="q5"><div class="poll-options"><button class="poll-btn">A．Ticagrelor 也要重新檢視<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">B．Clopidogrel 若替代，也要重新檢視<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">C．只要看 heparin<span class="count">0</span><span class="bar"></span></button><button class="poll-btn">D．A + B<span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" data-answer="q5a">揭示答案</button></div><div id="q5a" class="answer"><b>答案：D</b><br>Boosted PI 可使 ticagrelor effect ↑；clopidogrel activation 可能 ↓。</div></div>`,notes:'一個 interaction 被發現後，後續藥物仍要重新掃描。'},
-{html:`<h2>Ergotamine × boosted PI：把機轉串起來</h2><div class="workflow"><div class="step"><b>DRUG</b>Ergotamine<br>5-HT receptor agonism + partial α-adrenergic agonism</div><div class="step"><b>PK</b>CYP3A4<br>Extensive hepatic metabolism</div><div class="step"><b>ART</b>DRV/c<br>CYP3A inhibition</div><div class="step"><b>PD</b>Vasospasm<br>coronary + peripheral</div><div class="step"><b>EVENT</b>ischemia / arrhythmia / collapse</div></div><div class="callout danger"><b>2011 published case：</b>single 1 mg ergotamine dose 後出現 severe four-limb ischemia；angiography 顯示 diffuse arterial spasm。</div>`,notes:'原案例停用了 ART；MDR HIV 病人的 regimen alteration 應由 HIV specialist / clinical pharmacist 設計。'},
-{html:`<h2>研討會參考資料</h2><div class="grid two"><div class="card"><b>DHHS / NIH</b><br>Guidelines for the Use of Antiretroviral Agents in Adults and Adolescents With HIV<br><span class="small">Updated Sep 24, 2026</span></div><div class="card"><b>EACS v13.0</b><br>Ambrosioni J, et al. HIV Med. 2026;27(1):18–32.</div><div class="card"><b>CDC DoxyPEP</b><br>Bachmann LH, et al. MMWR Recomm Rep. 2024;73(RR-2):1–8.</div><div class="card"><b>Ergotamine case</b><br>Marine L, et al. Circulation. 2011;124:1395–1397.</div><div class="card"><b>DTG × metformin</b><br>Dolutegravir–metformin pharmacokinetic study</div><div class="card"><b>Liverpool HIV DDI Checker</b><br>Individual drug-pair assessment resource</div></div>`,notes:'QA 時可讓大家把手機打開 interaction checker。'},
-{html:`<div class="eyebrow">Thank you</div><div class="lead">「DDI 最危險的地方，不是 interaction checker 查不到；而是我們沒有想到要查。」</div><div class="callout"><b>張維倫（小風）藥師</b><br>亞東紀念醫院 藥學部｜感染科臨床藥師</div>`,notes:'收尾後進 Q&A。'}
+const slides = [
+{title:'', html:`<div class="eyebrow">亞東紀念醫院 藥學部｜感染科</div><h1>差一步就危險</h1><p class="lead">愛滋與性病治療常見藥物交互作用實戰解析</p><div class="kpi"><div class="item"><div class="v">35 min</div><div class="l">研討會演講</div></div><div class="item"><div class="v">HIV × STI</div><div class="l">從 ART 到 ChemSex</div></div><div class="item"><div class="v">Case Q&A</div><div class="l">最後 4 分鐘互動驗收</div></div></div><div class="callout"><b>張維倫（小風）藥師</b><br>亞東紀念醫院 藥學部｜感染科臨床藥師</div><div class="quick-nav"><button class="nav-btn" data-goto="4">先看 DDI Framework</button><button class="nav-btn" data-goto="5">認識 4 個 ART fingerprints</button><button class="nav-btn" data-goto="11">看高風險臨床場景</button><button class="nav-btn" data-goto="19">直接挑戰 Final Case</button></div>`,notes:'開場不要急著進機轉。先告訴大家：今天不是背 interaction table，而是練習「什麼時候要想到 DDI、想到後怎麼處理」。網站版新增快速導覽，公開閱讀者可直接進入核心模組。'},
+{title:'今天的路線', html:`<h2>35 分鐘，不做 DDI 大全</h2><div class="timeline"><div class="time">0–3 min</div><div><b>Opening</b><br>為什麼 ART 越簡單，仍可能「差一步就危險」</div><div class="time">3–7 min</div><div><b>DDI Framework</b><br>從「有沒有 interaction」進階到「會不會出事、出什麼事、怎麼處理」</div><div class="time">7–11 min</div><div><b>4 個 ART fingerprints</b><br>Booster / RPV / INSTI / Long-acting</div><div class="time">11–22 min</div><div><b>高風險臨床場景</b><br>CV、metformin、QT、steroid、PDE-5、STI</div><div class="time">22–30 min</div><div><b>STI × ChemSex × LA ART</b><br>DoxyPEP、mpox、recreational drugs、新時代 DDI</div><div class="time">30–35 min</div><div><b>Take-home + Final Case</b><br>逐步揭露，現場投票</div></div>`,notes:'建議把速度控制在：前 30 分鐘教方法，最後 5 分鐘讓 audience 自己判斷。'},
+{title:'開場投票', html:`<div class="eyebrow">先不要查 interaction checker</div><h2>看到 HIV patient 開始新藥，你第一個反應是什麼？</h2><div class="poll" data-poll="opening"><div class="poll-options"><button class="poll-btn" data-opt="A">A．先確認 ART regimen <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．先看 renal / hepatic function <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．先看新藥是不是 CYP substrate / inhibitor <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．先問完整 medication history（PRN / OTC / supplement / substance） <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('openingAnswer')">揭示今天的方向</button><button class="ctrl" onclick="resetPoll('opening')">清除投票</button></div><div id="openingAnswer" class="answer"><b>今天的核心不是四選一。</b><br>而是把這幾步串起來：完整 medication history → 辨認 ART interaction fingerprint → 找出 high-stakes drug → 評估 benefit/risk → 處理與監測。</div></div>`,notes:'這題不要說標準答案。目的是讓大家開始思考：DDI 是 medication list 的問題，也是 ART regimen recognition 的問題。'},
+{title:'為什麼還需要 DDI', html:`<h2>ART 處方簡化 ≠ DDI 消失</h2><div class="grid three"><div class="card"><div class="big-number">01</div><h3>Longer lifespan</h3><p>HIV care 進入長期慢性病照護，comorbidity 增加。</p></div><div class="card"><div class="big-number">02</div><h3>Additional medications</h3><p>CV、metabolic、CNS、steroid、STI treatment 等藥物逐步加入。</p></div><div class="card danger"><div class="big-number">03</div><h3>DDI consequence</h3><p>Exposure ↑/↓ → toxicity、treatment failure、therapeutic response 改變。</p></div></div><div class="callout"><b>核心轉念：</b>不要只查「ART 會不會被影響」，也要查「concomitant drug 會不會被影響」。</div><div class="source">舊版教材 page 5–9 以 longer lifespan → additional disease states → additional medications → DDI 作為主軸。（原始教材第 5–9 頁）</div>`,notes:'你原版第 5–9 頁已經有很好的故事線。此頁快速帶過，再進入 framework。'},
+{title:'DDI Framework', html:`<h2>看到 interaction，下一句要問什麼？</h2><div class="workflow"><div class="step"><div class="n">01</div><b>Recognize</b>ART regimen / risky drug / vulnerable patient</div><div class="step"><div class="n">02</div><b>Mechanism</b>PK？PD？CYP？UGT？transporter？absorption？</div><div class="step"><div class="n">03</div><b>Consequence</b>toxicity / loss of efficacy / resistance / disease event</div><div class="step"><div class="n">04</div><b>Action</b>avoid / substitute / dose-adjust / separate / monitor</div><div class="step"><div class="n">05</div><b>Follow-up</b>症狀、lab、drug level、viral load</div></div><div class="callout"><b>Risk × Benefit</b><br>評估「同時有兩個藥」與「沒有其中一個藥」各自帶來的風險。</div><div class="source">你的舊版 page 9 已採用 Recognize risk → Minimize harm → Risk vs. Benefit 的架構。（原始教材第 9 頁）</div>`,notes:'這張是全場最重要的一張 framework。可以說：interaction checker 只提供資料，臨床決策仍要靠 patient-specific risk/benefit。'},
+{title:'4 fingerprints', html:`<h2>看到這些 ART，先把警覺值拉高</h2><div class="grid four"><div class="card fingerprint danger"><span class="tag danger">Fingerprint 1</span><strong>Boosted PI</strong><p>DRV/c、DRV/r → CYP3A inhibition；很多 high-stakes interactions。</p></div><div class="card fingerprint warn"><span class="tag warn">Fingerprint 2</span><strong>RPV</strong><p>胃酸、food、QTc；oral 與 IM 的 interaction profile 不完全相同。</p></div><div class="card fingerprint"><span class="tag">Fingerprint 3</span><strong>INSTI</strong><p>polyvalent cation；DTG/BIC 與 metformin 等 transporter interaction。</p></div><div class="card fingerprint"><span class="tag">Fingerprint 4</span><strong>Long-acting</strong><p>interaction 可能不能靠「明天停藥」立即 undo。</p></div></div>`,notes:'四個 fingerprint 可以讓非感染科藥師快速建立 mental checklist。'},
+{title:'DDI Radar', html:`<div class="eyebrow">Web Interactive</div><h2>把 4 個 ART fingerprints 變成一張臨床雷達</h2><p class="lead">點選一個 fingerprint，下面會切換成對應的「先想到什麼」清單。</p><div class="quick-nav" id="fingerprintNav"><button class="nav-btn" data-fp="booster">Booster</button><button class="nav-btn" data-fp="rpv">RPV</button><button class="nav-btn" data-fp="insti">INSTI</button><button class="nav-btn" data-fp="la">Long-acting</button></div><div class="card" id="fingerprintPanel" style="margin-top:18px"><h3 id="fpTitle">Booster｜DRV/c、DRV/r</h3><p id="fpBody">先想 CYP3A inhibition，再掃描 ergot derivatives、PDE-5 inhibitors、部分 anticoagulant / antiplatelet / statin / antiarrhythmic。</p><div class="kpi"><div class="item"><div class="v" id="fpMechanism">CYP3A</div><div class="l">主要機轉</div></div><div class="item"><div class="v" id="fpRisk">Exposure ↑</div><div class="l">常見風險方向</div></div><div class="item"><div class="v" id="fpAction">Avoid / Adjust</div><div class="l">第一個管理問題</div></div></div></div>`,notes:'這張是網站版新增的互動元素，讓原本四個 fingerprint 不只是四張卡，而是可點選的 clinical radar。',},
+{title:'Boosted PI', html:`<div class="eyebrow">Fingerprint 1</div><h2>看到 COBI / RTV，先想 CYP3A4</h2><div class="grid two"><div class="card danger"><span class="tag danger">High stakes</span><h3>Ergot derivatives</h3><p>ergotamine / dihydroergotamine 等與 boosted PI：嚴重 vasospasm、ischemia、ergot toxicity。</p></div><div class="card"><span class="tag">常見 clinical traps</span><h3>CV / sexual / anticoagulation</h3><p>PDE-5 inhibitors、rivaroxaban、ticagrelor、clopidogrel、simvastatin、部分 antiarrhythmics 等。</p></div></div><div class="grid three" style="margin-top:16px"><div class="card soft"><b>Mechanism</b><br>CYP3A inhibition</div><div class="card soft"><b>Question</b><br>誰的 exposure ↑？</div><div class="card soft"><b>Action</b><br>avoid / alternative / dose adjust</div></div><div class="source">DHHS 2026 current guideline 已移除舊 DDI tables 24a–25b，詳細表格保留於 Archived Guidelines。（DHHS/NIH，2026-09-24 更新）</div>`,notes:'這裡可以示範一句：看 ART 名稱先拆成 active drug + booster，不要只記 brand name。'},
+{title:'RPV', html:`<div class="eyebrow">Fingerprint 2</div><h2>RPV：胃酸 + food + QTc</h2><div class="grid three"><div class="card danger"><span class="tag danger">Absorption</span><h3>Oral RPV + PPI</h3><p>胃酸抑制會降低 oral RPV exposure；PPI 是經典 high-risk interaction。</p></div><div class="card warn"><span class="tag warn">Timing</span><h3>Antacid / H2RA</h3><p>需要依時間錯開；oral RPV 與 IM RPV 的處理不同。</p></div><div class="card"><span class="tag">PD</span><h3>QTc</h3><p>若再疊加 azithromycin、amiodarone、dronedarone 等，需從 QTc stack 思考。</p></div></div><div class="callout">不要把「RPV」當成只有 CYP interaction 的藥。</div><div class="source">DHHS NNRTI DDI table：oral RPV 與 antacid / H2RA 的時間安排不同；IM RPV 的 acid-reducer interaction 則不同。（DHHS/NIH NNRTI DDI table）</div>`,notes:'這一張可以帶出「同一個成分，不同 dosage form，interaction 也可能不同」。'},
+{title:'INSTI', html:`<div class="eyebrow">Fingerprint 3</div><h2>INSTI：interaction 有時不是 ART 出事</h2><div class="grid two"><div class="card"><h3>Polyvalent cations</h3><p>DTG / BIC / 其他 oral INSTIs 可與含 Ca、Mg、Al、Fe 的產品發生 chelation，影響吸收。</p></div><div class="card warn"><h3>Metformin</h3><p>DTG / BIC 可增加 metformin exposure；腎功能不佳時尤其值得留意。</p></div></div><div class="kpi"><div class="item"><div class="v">DTG + metformin</div><div class="l">AUC 約 +79%（50 mg QD study）</div></div><div class="item"><div class="v">BIC + metformin</div><div class="l">AUC 約 +39%</div></div></div><div class="source">你原版 page 35–36 已整理 DTG/BIC × metformin 的 PK 數據。（原始教材第 35–36 頁）</div>`,notes:'臨床句型：不要只問「metformin 會不會影響 DTG」，要問「DTG 會不會改變 metformin 的暴露」。'},
+{title:'Long-acting', html:`<div class="eyebrow">Fingerprint 4</div><h2>現在的 DDI，不一定「停藥就結束」</h2><div class="grid two"><div class="card"><span class="tag">Oral ART</span><h3>可逐步撤除</h3><p>停掉 culprit drug / 調整 regimen 後，exposure 通常可隨時間下降。</p></div><div class="card danger"><span class="tag danger">LA ART</span><h3>Depot 已經在病人體內</h3><p>LA-CAB/RPV 或 LEN 的 interaction 需要從 depot、half-life、持續暴露時間思考。</p></div></div><div class="callout"><b>新時代問題：</b>「這個藥現在不能停」與「這個 interaction 也不能明天消失」。</div><div class="source">EACS v13.0 已將 long-acting ARVs 納入更新後的 DDI tables；並新增 substance use / chemsex DDI 內容。</div>`,notes:'這裡不用塞太多 LEN PK 細節，重點是讓大家理解 reversibility 不同。'},
+{title:'Metformin mini-case', html:`<div class="eyebrow">30 秒 mini-case</div><h2>DTG + metformin：要做什麼？</h2><p class="lead">患者穩定使用 DTG 50 mg QD，新診斷 diabetes，準備開始 metformin。</p><div class="poll" data-poll="metformin"><div class="poll-options"><button class="poll-btn" data-opt="A">A．完全不用查，兩者沒有 DDI <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．可以併用，但要留意 metformin exposure 與 renal function <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．一定要停 DTG <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．只有 metformin 1000 mg BID 才需要注意 <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('metforminAnswer')">揭示重點</button></div><div id="metforminAnswer" class="answer"><b>B 的描述最接近臨床處理方向。</b><br>DHHS 對 DTG + metformin 的重點是 exposure 增加，並依 renal function、metformin 劑量與耐受性做個別化處理；不是因為有 DDI 就直接停 ART。</div></div>`,notes:'這題用來練習「有 DDI ≠ 禁止併用」。'},
+{title:'CV red flags', html:`<h2>Booster × CV：一次看到三種風險</h2><div class="grid three"><div class="card danger"><h3>Bleeding</h3><p>PI/booster + rivaroxaban：暴露增加與 bleeding risk。</p></div><div class="card warn"><h3>Platelet effect</h3><p>PI/booster：ticagrelor effect ↑；clopidogrel activation ↓。</p></div><div class="card"><h3>Myopathy</h3><p>Boosted PI 與 simvastatin 等 statin interaction 需特別留意。</p></div></div><div class="grid two" style="margin-top:16px"><div class="card soft"><b>你原版的紅旗</b><br>rivaroxaban、apixaban、clopidogrel、ticagrelor、simvastatin、ranolazine、ivabradine。</div><div class="card soft"><b>真正問題</b><br>不是「哪一個藥最好」，而是「此病人目前這個 ART regimen，哪些選項會改變風險？」</div></div><div class="source">舊版教材 page 30–32 已整理 anticoagulant / antiplatelet / statin 的 interaction matrix。（原始教材第 31 頁）</div>`,notes:'避免把 lecture 做成比較哪個抗凝藥「最好」。用「interaction management」的角度講即可。'},
+{title:'Steroid', html:`<h2>吸的、吃的、打的 steroid，都可能是 DDI</h2><div class="grid two"><div class="card danger"><h3>Boosted PI × inhaled corticosteroid</h3><p>Fluticasone、budesonide、mometasone 等可因 CYP3A inhibition 增加 systemic steroid exposure，增加 Cushing syndrome / adrenal suppression risk。</p></div><div class="card warn"><h3>RPV × dexamethasone</h3><p>Dexamethasone 可誘導 CYP3A，降低 oral/LA RPV exposure；多劑量使用尤其需避免。</p></div></div><div class="callout"><b>實戰問法：</b>「你的 inhaler 是哪一支？商品名？一天幾次？」比「你有沒有用 steroid？」更容易抓到真正的 interaction。</div><div class="source">你原版 page 41–44 已列出 inhaled steroid 與 RPV / LA-CAB/RPV 的 interaction；2026 演講建議依 current DHHS/EACS/label 更新具體處置。（原始教材第 41 頁） （DHHS/NIH NNRTI DDI table）</div>`,notes:'可以在此提醒 audience：舊教材中的 dexamethasone 處理建議不要直接照搬，現在應依 current guideline / label / Liverpool individual check。'},
+{title:'PDE-5', html:`<h2>「性功能藥」也是 medication history</h2><div class="grid three"><div class="card danger"><span class="tag danger">Boosted PI</span><h3>Sildenafil</h3><p>Exposure 可明顯增加；通常需要降低劑量與延長給藥間隔。</p></div><div class="card"><h3>Tadalafil</h3><p>依 indication 與 ART regimen 個別調整，不要只看一般 ED dose。</p></div><div class="card warn"><h3>Dapoxetine</h3><p>強 CYP3A inhibition 可能增加 exposure 與 hypotension/syncope 等 adverse effects。</p></div></div><div class="callout">病人回答「我沒有吃藥」之後，還要繼續問：<b>「助興？壯陽？網路買的？偶爾吃？」</b></div><div class="source">你原版 page 40 已整理 PI/booster × PDE-5 inhibitor / dapoxetine。</div>`,notes:'把這一張當作從 prescription medication 轉向真實世界 medication history 的橋樑。'},
+{title:'STI', html:`<h2>STI treatment：interaction 也會藏在「短療程」裡</h2><div class="grid four"><div class="card"><h3>Doxycycline</h3><p>cation / antacid / supplement 的錯開。</p></div><div class="card warn"><h3>Azithromycin</h3><p>QTc stacking 要注意。</p></div><div class="card"><h3>Metronidazole</h3><p>warfarin / alcohol interaction。</p></div><div class="card danger"><h3>Tecovirimat</h3><p>CYP2C19/2C8 inhibition + CYP3A induction，可能碰到 RPV。</p></div></div><div class="callout"><b>短療程不是「沒有 DDI」。</b><br>真正要問的是：這個藥在病人體內的 exposure window，和 ART/其他藥重疊多久？</div>`,notes:'這張的目標不是講 STI treatment，而是讓 audience 把「短期藥」也納入 DDI radar。'},
+{title:'DoxyPEP', html:`<h2>DoxyPEP：除了適應族群，藥師最容易處理的是 administration DDI</h2><div class="grid two"><div class="card"><span class="tag">CDC 2024</span><h3>200 mg within 72 h</h3><p>CDC 建議針對符合條件的 MSM/TGW 進行 shared decision-making；最大 200 mg / 24 h。</p></div><div class="card danger"><span class="tag danger">Interaction</span><h3>錯開 cation</h3><p>與 dairy、antacid、Ca / Fe / Mg / sodium bicarbonate supplement 至少錯開 2 小時。</p></div></div><div class="callout">DoxyPEP 不是把 doxycycline 放進「獨立的 STI 區塊」就結束；它仍然是病人的 medication history。</div><div class="source">CDC MMWR 2024：DoxyPEP 的建議族群、200 mg within 72 h、≤200 mg/24 h，以及與 dairy / antacid / Ca/Fe/Mg/NaHCO3 錯開至少 2 小時。（CDC MMWR DoxyPEP 2024）<br>EACS v13.0 新增 Doxy-PEP section。（EACS v13.0）</div>`,notes:'這一張最好不要花太多時間講 efficacy；把重點拉回藥師的 DDI / administration counseling。'},
+{title:'ChemSex', html:`<h2>最後一個 medication list：ChemSex</h2><div class="grid three"><div class="card"><span class="tag">Depressant</span><h3>GHB / GBL、benzodiazepines、opioids</h3><p>PD interaction、CNS depression、sedation。</p></div><div class="card warn"><span class="tag warn">Stimulant</span><h3>Methamphetamine、cocaine、MDMA</h3><p>CV、QTc、sympathomimetic effects 需放進整體風險。</p></div><div class="card danger"><span class="tag danger">Unknown</span><h3>來源不明 / 成分不純</h3><p>「沒有查到 interaction」不等於「已證明安全」。</p></div></div><div class="quote" style="margin-top:22px">「你問『有沒有吃藥？』，病人理解的可能只有『處方藥』。」</div><div class="source">EACS v13.0 更新 DDI tables，新增 substance use / chemsex 類別與 clinical notes。<br>你的原版 page 45–47 已以 chemsex / substance classes 呈現。（原始教材第 45–47 頁）</div>`,notes:'語氣保持 nonjudgmental。重點是 medication safety，不是道德評價。'},
+{title:'查詢工具', html:`<h2>Interaction checker 是工具，不是答案</h2><div class="grid four"><div class="card"><span class="tag">01</span><h3>DHHS / NIH</h3><p>先確認 guideline framework 與 treatment principles。</p></div><div class="card"><span class="tag">02</span><h3>EACS v13.0</h3><p>DDI tables + LA ART + substance/chemsex。</p></div><div class="card"><span class="tag">03</span><h3>Liverpool HIV</h3><p>Individual drug pair 的實際處置。</p></div><div class="card"><span class="tag">04</span><h3>Label / PK data</h3><p>遇到 high-stakes interaction 回頭確認原始資料。</p></div></div><div class="callout"><b>查詢順序：</b>ART regimen → culprit drug → mechanism → magnitude → clinical consequence → management → monitoring。</div><div class="source">DHHS 2026：DDI guideline framework 已更新，舊詳細 tables 移至 Archived Guidelines。</div>`,notes:'這張可以讓大家拿手機一起查；現場若有網路，可以口頭示範 Liverpool。此 preview 本身不依賴外部 API。'},
+{title:'Take-home', html:`<div class="eyebrow">Take-home Message</div><h2>四句話，帶回明天的門診</h2><div class="grid two"><div class="card"><span class="big-number">01</span><h3>ART 可以簡化，但 DDI 不會自己消失。</h3></div><div class="card"><span class="big-number">02</span><h3>先看 ART fingerprint：Booster、RPV、INSTI、Long-acting。</h3></div><div class="card"><span class="big-number">03</span><h3>不要只問「有沒有 interaction」；要問「會出什麼事、怎麼處理」。</h3></div><div class="card danger"><span class="big-number">04</span><h3>PRN、OTC、supplement、STI treatment、chemsex 都是 medication history。</h3></div></div><div class="source">你原版 page 49 的四項 Take Home Message 為本頁骨架。（原始教材第 49 頁）</div>`,notes:'這裡停一下，讓大家準備最後案例。'},
+{title:'Final Case', html:`<div class="case-title"><span class="case-step">FINAL CASE · 4 min</span><h2 style="margin:0">最後一關：真的只是 headache 嗎？</h2></div><div class="grid two"><div class="card"><h3>39 y/o Male</h3><p>Multiple drug-resistant HIV<br>Prezcobix (DRV/c) + DTG × 4 years<br>HTN / HLP / Migraine</p></div><div class="card"><h3>今天</h3><p>Headache + nausea + chest tightness<br><b>Day 1</b></p></div></div><div class="reveal"><button class="ctrl primary" onclick="revealBlock('case1')">揭露下一幕</button><div id="case1" class="reveal-block"><b>11:30</b> E4V5M6；TPR 36.1/53/18；BP 130/85；SpO2 99%<br><br><b>你現在最想再問哪一件事？</b></div><div class="controls" id="case1controls" style="display:none"><button class="ctrl primary" onclick="goToSlide(currentSlide+1)">進入 Q1</button></div></div><div class="source">病例原始資料位於你舊版 slide 50–51。（原始教材第 50–51 頁）</div>`,notes:'第一幕只給背景與 11:30 正常生命徵象。不要提示 ergotamine。'},
+{title:'Case Q1', html:`<div class="case-title"><span class="case-step">Q1 · Medication history</span><h2 style="margin:0">你現在最想再問什麼？</h2></div><div class="poll" data-poll="q1"><div class="poll-options"><button class="poll-btn" data-opt="A">A．最近 HIV viral load <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．PRN / OTC / local clinic medication <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．pitavastatin adherence <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．今天有沒有吃早餐 <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('q1Answer')">揭示答案</button><button class="ctrl" onclick="resetPoll('q1')">清除投票</button></div><div id="q1Answer" class="answer"><b>答案：B</b><br>尤其要問近期 migraine 如何處理、PRN 藥物、OTC、保健品與 substance use。</div></div>`,notes:'這題考的不是 knowledge，而是 history taking。'},
+{title:'Case Q2', html:`<div class="case-title"><span class="case-step">Q2 · The missing drug</span><h2 style="margin:0">多透露一點</h2></div><div class="card"><p>Local clinic prescribed <b>NSAID + ergotamine PRN</b>，共開 3 doses。</p><p>病人實際只吃了 <b>ONE dose ergotamine</b>，之後馬上服用 HAART。</p></div><div class="poll" data-poll="q2" style="margin-top:14px"><div class="poll-options"><button class="poll-btn" data-opt="A">A．只有 chronic ergotamine use 才危險 <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．DRV/c 可讓 ergotamine exposure 大幅上升 <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．DTG 是主要 culprit <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．主要是 NSAID <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('q2Answer')">揭示答案</button></div><div id="q2Answer" class="answer"><b>答案：B</b><br>Boosted PI 與 ergot derivatives 是 high-stakes DDI；「只吃一顆」不能用來排除風險。</div></div><div class="source">病例中的「ONE dose ergotamine 後立即服用 HAART」為舊版 page 59 的原始設定。（原始教材第 59 頁）</div>`,notes:'這是整場「差一步」的第一個 punchline：患者自己也可能覺得只吃一顆沒關係。'},
+{title:'Case Q3', html:`<div class="case-title"><span class="case-step">Q3 · Collapse</span><h2 style="margin:0">事情開始失控</h2></div><div class="card"><p>12:41：generalized tonic-clonic-like convulsions</p><p>12:45：pulse 不可測 → CPR</p><p>12:48：VF → defibrillation</p><p>12:51：amiodarone 300 mg IV</p></div><div class="poll" data-poll="q3" style="margin-top:14px"><div class="poll-options"><button class="poll-btn" data-opt="A">A．ART efficacy 問題 <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．ACS <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．Drug-induced vasospasm / ergot toxicity <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．Pitavastatin toxicity <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('q3Answer')">先投票，再揭示</button></div><div id="q3Answer" class="answer"><b>臨床上應高度懷疑 ergot-related vasospasm。</b><br>但此時仍需要急性照護與鑑別診斷；下一幕的 coronary angiography 才會讓 drug-related mechanism 更清楚。</div></div>`,notes:'這裡不要太早把答案講死。先讓大家想 ACS vs vasospasm。'},
+{title:'Case Q4', html:`<div class="case-title"><span class="case-step">Q4 · Cath lab</span><h2 style="margin:0">CAG 結果</h2></div><div class="grid two"><div class="card"><h3>Coronary angiography</h3><p>LMCA：luminal irregularity<br>LAD：40–50% eccentric stenosis + diffuse spasm<br>LCX：diffuse spasm<br>RCA：30–40% + diffuse spasm</p></div><div class="card danger"><h3>Diagnosis</h3><p><b>Insignificant coronary artery disease</b><br><b>Coronary spasm</b><br>IHCA s/p ACLS with ROSC</p></div></div><div class="poll" data-poll="q4" style="margin-top:14px"><div class="poll-options"><button class="poll-btn" data-opt="A">A．Plaque rupture ACS <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．Ergotism-associated coronary vasospasm <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．DTG neurotoxicity <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．NSAID renal toxicity <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('q4Answer')">揭示答案</button></div><div id="q4Answer" class="answer"><b>答案：B</b><br>Ergot derivatives 可造成 arterial constriction；冠狀動脈痙攣是原始病例的核心臨床表現。</div></div><div class="source">原始病例 page 54：CAG 顯示多條冠狀動脈 diffuse spasm。（原始教材第 54 頁）</div>`,notes:'這張才把 vasospasm 的客觀證據攤出來。'},
+{title:'Case Q5', html:`<div class="case-title"><span class="case-step">Q5 · Second DDI</span><h2 style="margin:0">第一個 DDI 找到了，事情真的結束了嗎？</h2></div><div class="card"><p>ROSC 後使用：</p><p><b>DAPT：aspirin + ticagrelor</b><br><b>Heparin infusion</b></p></div><div class="poll" data-poll="q5" style="margin-top:14px"><div class="poll-options"><button class="poll-btn" data-opt="A">A．Ticagrelor 也要重新檢視 <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="B">B．Clopidogrel 若考慮替代，也要重新檢視 <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="C">C．這時只要看 heparin <span class="count">0</span><span class="bar"></span></button><button class="poll-btn" data-opt="D">D．A + B <span class="count">0</span><span class="bar"></span></button></div><div class="controls"><button class="ctrl" onclick="revealAnswer('q5Answer')">揭示答案</button></div><div id="q5Answer" class="answer"><b>答案：D</b><br>Boosted PI 可使 ticagrelor effect ↑；而 clopidogrel activation 可能 ↓。第一個 DDI 被發現後，後續藥物仍要重新掃描。</div></div><div class="source">舊版 page 31 已整理 PI/booster × ticagrelor / clopidogrel 的方向性 interaction。（原始教材第 31 頁）</div>`,notes:'這是案例最後一個漂亮的 teaching point：一個 interaction 會改變後續整個處置鏈。'},
+{title:'案例解析', html:`<h2>Ergotamine × boosted PI：把機轉全部串起來</h2><div class="workflow"><div class="step"><div class="n">DRUG</div><b>Ergotamine</b>5-HT receptor agonism + partial α-adrenergic agonism</div><div class="step"><div class="n">PK</div><b>CYP3A4</b>Extensive hepatic metabolism / first-pass</div><div class="step"><div class="n">ART</div><b>DRV/c</b>CYP3A inhibition</div><div class="step"><div class="n">PD</div><b>Vasospasm</b>coronary + peripheral arterial constriction</div><div class="step"><div class="n">EVENT</div><b>Clinical harm</b>ischemia / arrhythmia / collapse</div></div><div class="callout danger"><b>2011 published case：</b>HIV patient receiving protease inhibitors developed severe four-limb ischemia after a single 1 mg ergotamine dose；angiography showed diffuse arterial spasm。（原始教材第 62 頁）</div><div class="callout"><b>2026 clinical update：</b>不要把「停 ART」直接當成萬用答案。高阻抗 HIV patient 的 regimen alteration 應同步由 HIV specialist / clinical pharmacist 設計，避免不必要 ART interruption。</div><div class="source">Marine L, et al. Circulation. 2011;124:1395–1397. DOI:10.1161/CIRCULATIONAHA.111.020586.（CDC MMWR DoxyPEP 2024）</div>`,notes:'原案例停用了 ART，但 2026 的教學重點應再補上：MDR HIV 不宜把 ART interruption 當成簡單處方動作，應設計替代 regimen。'},
+{title:'References', html:`<h2>研討會參考資料</h2><div class="ref-grid"><div class="ref-item"><b>DHHS / NIH</b><br>Guidelines for the Use of Antiretroviral Agents in Adults and Adolescents With HIV<br><span class="small">Updated Sep 24, 2026</span></div><div class="ref-item"><b>EACS v13.0</b><br>Ambrosioni J, et al. HIV Med. 2026;27(1):18–32. DOI 10.1111/hiv.70120</div><div class="ref-item"><b>CDC DoxyPEP</b><br>Bachmann LH, et al. MMWR Recomm Rep. 2024;73(RR-2):1–8. DOI 10.15585/mmwr.rr7302a1</div><div class="ref-item"><b>Ergotamine case</b><br>Marine L, et al. Circulation. 2011;124:1395–1397. DOI 10.1161/CIRCULATIONAHA.111.020586</div><div class="ref-item"><b>DTG × metformin</b><br>Dolutegravir–metformin pharmacokinetic study</div><div class="ref-item"><b>Liverpool HIV DDI Checker</b><br>Individual drug-pair assessment resource</div></div><div class="source">本網站的案例骨架、原始教材頁面與原版 DDI matrices 均依你提供的 62 頁 PDF 建構。</div>`,notes:'最後可停留在此頁，現場 QA 時讓大家把手機打開 interaction checker。'},
+{title:'End', html:`<div class="eyebrow">Thank you</div><div class="quote">「DDI 最危險的地方，不是 interaction checker 查不到；而是我們沒有想到要查。」</div><div class="callout" style="margin-top:28px"><b>張維倫（小風）藥師</b><br>亞東紀念醫院 藥學部｜感染科臨床藥師</div>`,notes:'收尾後直接進 Q&A。這句是本次簡報的講題式收束，並非 guideline 原文。'}
 ];
-let currentSlide=0,timerSeconds=2100,timerHandle=null;
-const deck=document.getElementById('deck');
-slides.forEach((s,i)=>{const el=document.createElement('article');el.className='slide'+(i===0?' active':'');el.innerHTML=s.html;deck.appendChild(el);});
-function updateUI(){document.querySelectorAll('.slide').forEach((e,i)=>e.classList.toggle('active',i===currentSlide));document.getElementById('notes').innerHTML=slides[currentSlide].notes||'';document.getElementById('slideCount').textContent=(currentSlide+1)+' / '+slides.length;document.getElementById('progressBar').style.width=((currentSlide+1)/slides.length*100)+'%';}
-function goToSlide(n){currentSlide=Math.max(0,Math.min(slides.length-1,n));updateUI();}
-function bars(p){const bs=[...p.querySelectorAll('.poll-btn')],vs=bs.map(b=>Number(b.querySelector('.count').textContent)),t=vs.reduce((a,b)=>a+b,0)||1;bs.forEach((b,i)=>b.querySelector('.bar').style.width=(vs[i]/t*100)+'%');}
-function resetPoll(p){p.querySelectorAll('.count').forEach(e=>e.textContent='0');p.querySelectorAll('.bar').forEach(e=>e.style.width='0%');}
-document.getElementById('nextBtn').onclick=()=>goToSlide(currentSlide+1);
-document.getElementById('prevBtn').onclick=()=>goToSlide(currentSlide-1);
+
+let currentSlide = 0;
+let timerSeconds = 35*60;
+let timerHandle = null;
+const deck = document.getElementById('deck');
+slides.forEach((s,i)=>{
+  const el=document.createElement('article');
+  el.className='slide'+(i===0?' active':'');
+  el.dataset.index=i;
+  el.innerHTML=s.html;
+  deck.appendChild(el);
+});
+function updateUI(){
+  document.querySelectorAll('.slide').forEach((e,i)=>e.classList.toggle('active',i===currentSlide));
+  document.getElementById('notes').innerHTML=slides[currentSlide].notes||'';
+  document.getElementById('slideCount').textContent=`${currentSlide+1} / ${slides.length}`;
+  document.getElementById('progressBar').style.width=((currentSlide+1)/slides.length*100)+'%';
+  document.getElementById('prevBtn').disabled=currentSlide===0;
+  document.getElementById('nextBtn').disabled=currentSlide===slides.length-1;
+  window.scrollTo(0,0);
+  document.querySelector('.slide.active')?.scrollTo(0,0);
+}
+function goToSlide(n){ currentSlide=Math.max(0,Math.min(slides.length-1,n)); updateUI(); }
+function next(){goToSlide(currentSlide+1)}
+function prev(){goToSlide(currentSlide-1)}
+document.getElementById('nextBtn').onclick=next;
+document.getElementById('prevBtn').onclick=prev;
 document.getElementById('notesToggle').onclick=()=>document.getElementById('notesPanel').classList.toggle('hidden');
 document.getElementById('fullscreenBtn').onclick=()=>document.documentElement.requestFullscreen?.();
-document.getElementById('startBtn').onclick=()=>{document.getElementById('notesPanel').classList.add('hidden');document.documentElement.requestFullscreen?.();if(!timerHandle)toggleTimer();};
-document.getElementById('resetPolls').onclick=()=>document.querySelectorAll('.slide.active .poll').forEach(resetPoll);
-document.querySelectorAll('.poll-btn').forEach(b=>b.onclick=()=>{const p=b.closest('.poll');const c=b.querySelector('.count');c.textContent=Number(c.textContent)+1;bars(p);});
-document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.answer)?.classList.add('show'));
-document.querySelectorAll('[data-reveal]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.reveal)?.classList.add('show'));
-document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>goToSlide(Number(b.dataset.goto)));
-const fp={booster:['Booster｜DRV/c、DRV/r','先想 CYP3A inhibition，再掃描 ergot derivatives、PDE-5 inhibitors、部分 anticoagulant / antiplatelet / statin / antiarrhythmic。'],rpv:['RPV｜oral / IM','先想 gastric acid、food、QTc；oral 與 IM 的 interaction profile 不完全相同。'],insti:['INSTI｜DTG / BIC','先想 polyvalent cation chelation，以及 metformin exposure 增加。'],la:['Long-acting｜CAB/RPV / LEN','先想 reversibility：depot 已在體內，interaction 不一定能靠停藥立即歸零。']};
-document.querySelectorAll('[data-fp]').forEach(b=>b.onclick=()=>{const d=fp[b.dataset.fp];document.getElementById('fpTitle').textContent=d[0];document.getElementById('fpBody').textContent=d[1];});
-function setTimer(){const m=Math.floor(timerSeconds/60),s=timerSeconds%60;document.getElementById('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
-function toggleTimer(){const t=document.getElementById('timer');if(timerHandle){clearInterval(timerHandle);timerHandle=null;t.classList.remove('running');return;}t.classList.add('running');timerHandle=setInterval(()=>{timerSeconds=Math.max(0,timerSeconds-1);setTimer();if(timerSeconds===0){clearInterval(timerHandle);timerHandle=null;}},1000);}
-window.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)&&e.key!=='Escape')return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goToSlide(currentSlide+1)}else if(e.key==='ArrowLeft'){e.preventDefault();goToSlide(currentSlide-1)}else if(e.key.toLowerCase()==='p'){document.getElementById('notesPanel').classList.toggle('hidden')}else if(e.key.toLowerCase()==='f'){document.documentElement.requestFullscreen?.()}else if(e.key.toLowerCase()==='s'){document.getElementById('notesPanel').classList.add('hidden');document.documentElement.requestFullscreen?.();if(!timerHandle)toggleTimer()}else if(e.key.toLowerCase()==='t'){toggleTimer()}});
-updateUI();setTimer();
+document.getElementById('startBtn').onclick=()=>{ document.getElementById('notesPanel').classList.add('hidden'); document.documentElement.requestFullscreen?.(); if(!timerHandle) toggleTimer(); };
+function revealAnswer(id){ document.getElementById(id)?.classList.add('show'); }
+function revealBlock(id){ const e=document.getElementById(id); if(e){e.classList.add('show'); if(id==='case1') document.getElementById('case1controls').style.display='flex'; } }
+function pollSetup(){
+  document.querySelectorAll('.poll').forEach(p=>{
+    p.querySelectorAll('.poll-btn').forEach(btn=>btn.onclick=()=>{
+      const countEl=btn.querySelector('.count'); countEl.textContent=Number(countEl.textContent)+1; updateBars(p);
+    });
+  });
+}
+function updateBars(p){
+  const btns=[...p.querySelectorAll('.poll-btn')];
+  const vals=btns.map(b=>Number(b.querySelector('.count').textContent));
+  const total=vals.reduce((a,b)=>a+b,0)||1;
+  btns.forEach((b,i)=>b.querySelector('.bar').style.width=(vals[i]/total*100)+'%');
+}
+function resetPoll(key){ const p=document.querySelector('.poll[data-poll="'+key+'"]'); if(!p)return; p.querySelectorAll('.count').forEach(e=>e.textContent='0'); p.querySelectorAll('.bar').forEach(e=>e.style.width='0%'); }
+function setupQuickNav(){
+  document.querySelectorAll('.nav-btn[data-goto]').forEach(btn=>btn.addEventListener('click',()=>goToSlide(Number(btn.dataset.goto))));
+  const fpData={
+    booster:{title:'Booster｜DRV/c、DRV/r',body:'先想 CYP3A inhibition，再掃描 ergot derivatives、PDE-5 inhibitors、部分 anticoagulant / antiplatelet / statin / antiarrhythmic。',mechanism:'CYP3A',risk:'Exposure ↑',action:'Avoid / Adjust'},
+    rpv:{title:'RPV｜oral / IM 都要看 dosage form',body:'先想 gastric acid、food、QTc；oral RPV 與 acid reducers 的關係，和 IM RPV 的處理方式不同。',mechanism:'Acid / QT',risk:'Exposure ↓ / QTc',action:'Separate / Avoid'},
+    insti:{title:'INSTI｜DTG / BIC',body:'先想 polyvalent cation chelation，以及 metformin exposure 增加；再看 renal function 與實際產品。',mechanism:'UGT / Cation',risk:'Absorption ↓ / Metformin ↑',action:'Separate / Monitor'},
+    la:{title:'Long-acting｜CAB/RPV / LEN',body:'先想 interaction 的 reversibility：depot 已在體內，不能把「停藥」當成明天就歸零。',mechanism:'Depot / Half-life',risk:'Persistent exposure',action:'Plan ahead'}
+  };
+  document.querySelectorAll('#fingerprintNav .nav-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    const d=fpData[btn.dataset.fp]; if(!d)return;
+    document.getElementById('fpTitle').textContent=d.title;
+    document.getElementById('fpBody').textContent=d.body;
+    document.getElementById('fpMechanism').textContent=d.mechanism;
+    document.getElementById('fpRisk').textContent=d.risk;
+    document.getElementById('fpAction').textContent=d.action;
+  }));
+}
+document.getElementById('resetPolls').onclick=()=>{ document.querySelectorAll('.slide.active .poll').forEach(p=>resetPoll(p.dataset.poll)); };
+function setTimerUI(){const m=Math.floor(timerSeconds/60),s=timerSeconds%60; document.getElementById('timer').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
+function toggleTimer(){
+  const t=document.getElementById('timer');
+  if(timerHandle){clearInterval(timerHandle);timerHandle=null;t.classList.remove('running');return;}
+  t.classList.add('running');
+  timerHandle=setInterval(()=>{timerSeconds=Math.max(0,timerSeconds-1);setTimerUI();if(timerSeconds===0){clearInterval(timerHandle);timerHandle=null;}},1000);
+}
+window.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName) && e.key!=='Escape') return;
+  if(e.key==='ArrowRight' || e.key===' ') { e.preventDefault(); next(); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); prev(); }
+  else if(e.key.toLowerCase()==='p'){ document.getElementById('notesPanel').classList.toggle('hidden'); }
+  else if(e.key.toLowerCase()==='f'){ document.documentElement.requestFullscreen?.(); }
+  else if(e.key.toLowerCase()==='s'){ document.getElementById('notesPanel').classList.add('hidden'); document.documentElement.requestFullscreen?.(); if(!timerHandle) toggleTimer(); }
+  else if(e.key.toLowerCase()==='t'){ toggleTimer(); }
+  else if(e.key==='Escape' && document.fullscreenElement){ document.exitFullscreen?.(); }
+});
+updateUI(); setTimerUI(); pollSetup(); setupQuickNav();
+</script>
+<script>
+(() => {
+  const fpData = {
+    booster:{title:'Booster｜DRV/c、DRV/r',body:'先想 CYP3A inhibition，再掃描 ergot derivatives、PDE-5 inhibitors、部分 anticoagulant / antiplatelet / statin / antiarrhythmic。',m:'CYP3A inhibition',r:'Exposure ↑',a:'Avoid / Adjust'},
+    rpv:{title:'RPV｜oral / IM 都要看 dosage form',body:'先想 gastric acid、food、QTc；oral RPV 與 acid reducers 的關係，和 IM RPV 的處理方式不同。',m:'Acid / QT',r:'Exposure ↓ / QTc',a:'Separate / Avoid'},
+    insti:{title:'INSTI｜DTG / BIC',body:'先想 polyvalent cation chelation，以及 metformin exposure 增加；再看 renal function 與實際產品。',m:'UGT / Cation',r:'Absorption ↓ / Metformin ↑',a:'Separate / Monitor'},
+    la:{title:'Long-acting｜CAB/RPV / LEN',body:'先想 interaction 的 reversibility：depot 已在體內，不能把「停藥」當成 interaction 明天就歸零。',m:'Depot / Half-life',r:'Persistent exposure',a:'Plan ahead'}
+  };
+  const root=document.getElementById('publicSite');
+  const esc=(s)=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const cleanHtml=(html)=>{
+    const box=document.createElement('div');
+    box.innerHTML=html;
+    box.querySelectorAll('.controls,.quick-nav,.poll,.source').forEach(el=>el.remove());
+    return box.innerHTML;
+  };
+  const byTitle=(title)=>slides.find(s=>s.title===title);
+  const byTitles=(titles)=>titles.map(t=>byTitle(t)).filter(Boolean);
+
+  const fpTitle=root.querySelector('#publicFpTitle');
+  const fpBody=root.querySelector('#publicFpBody');
+  const fpM=root.querySelector('#publicFpM');
+  const fpR=root.querySelector('#publicFpR');
+  const fpA=root.querySelector('#publicFpA');
+  root.querySelectorAll('#publicFingerTabs .finger-tab').forEach(btn=>btn.addEventListener('click',()=>{
+    const d=fpData[btn.dataset.fp];
+    root.querySelectorAll('#publicFingerTabs .finger-tab').forEach(x=>x.classList.toggle('active',x===btn));
+    fpTitle.textContent=d.title; fpBody.textContent=d.body; fpM.textContent=d.m; fpR.textContent=d.r; fpA.textContent=d.a;
+  }));
+
+  const sceneMap=[
+    ['Boosted PI','High-stakes','Ergot derivatives、PDE-5、rivaroxaban、ticagrelor、clopidogrel、simvastatin。'],
+    ['RPV','Absorption / QTc','PPI、antacid / H2RA、food、QTc stacking。'],
+    ['INSTI','PK / administration','Polyvalent cations，以及 DTG/BIC × metformin。'],
+    ['Long-acting','Reversibility','Depot 在體內，不能把停藥視為立即 undo。'],
+    ['CV','High stakes','Anticoagulant、antiplatelet、statin 與 boosted PI。'],
+    ['Steroid','Systemic exposure','Boosted PI × inhaled corticosteroid；RPV × dexamethasone。'],
+    ['PDE-5','Medication history','Sildenafil、tadalafil、dapoxetine 也要納入 history。'],
+    ['STI treatment','Short course ≠ no DDI','Doxycycline、azithromycin、metronidazole、tecovirimat。'],
+    ['DoxyPEP','Administration DDI','與 dairy、antacid、Ca / Fe / Mg / sodium bicarbonate 錯開。'],
+    ['ChemSex','Nonjudgmental history','GHB/GBL、benzodiazepines、opioids、methamphetamine、cocaine、MDMA。'],
+    ['Interaction checker','Tool ≠ answer','DHHS / NIH、EACS、Liverpool、label / PK data。']
+  ];
+  const sceneWrap=root.querySelector('#publicScenes');
+  sceneMap.forEach(([title,flag,body],i)=>{
+    const card=document.createElement('article');
+    card.className='scene-card';
+    card.innerHTML='<div class="ey">'+esc(String(i+1).padStart(2,'0'))+'</div><h3>'+esc(title)+'</h3><p>'+esc(body)+'</p><div class="flag">'+esc(flag)+'</div>';
+    sceneWrap.appendChild(card);
+  });
+  const toolsWrap=root.querySelector('#publicTools');
+  ['DHHS / NIH','EACS v13.0','Liverpool HIV DDI Checker','Label / PK data'].forEach((t,i)=>{
+    const c=document.createElement('article'); c.className='tool-card'; c.innerHTML='<h3>'+esc(t)+'</h3><p>'+esc(['Guideline framework 與 treatment principles。','DDI tables + LA ART + substance/chemsex。','Individual drug-pair assessment。','High-stakes interaction 回看原始資料。'][i])+'</p>'; toolsWrap.appendChild(c);
+  });
+
+  root.querySelectorAll('#miniQuiz .quiz-option').forEach(btn=>btn.addEventListener('click',()=>{
+    root.querySelectorAll('#miniQuiz .quiz-option').forEach(x=>x.classList.toggle('selected',x===btn));
+    root.querySelector('#miniAnswer').classList.add('show');
+  }));
+
+  const caseWrap=root.querySelector('#publicCase');
+  const caseSlides=[
+    {title:'Background',text:'39 y/o male；multiple drug-resistant HIV；Prezcobix (DRV/c) + DTG × 4 years；HTN / HLP / Migraine。',reveal:'今天：headache + nausea + chest tightness。先不要急著猜 culprit drug。'},
+    {title:'11:30 — Stable at first glance',text:'E4V5M6；TPR 36.1/53/18；BP 130/85；SpO2 99%。',reveal:'真正值得再問的是：PRN、OTC、local clinic medication、保健品，以及 substance use。'},
+    {title:'The missing drug',text:'Local clinic prescribed NSAID + ergotamine PRN，共開 3 doses。病人只吃 ONE dose ergotamine，之後馬上服用 HAART。',reveal:'Boosted PI × ergot derivatives 是 high-stakes DDI；只吃一顆不能用來排除風險。'},
+    {title:'12:41 → 12:51 — Collapse',text:'12:41 generalized tonic-clonic-like convulsions；12:45 pulse 不可測 → CPR；12:48 VF → defibrillation；12:51 amiodarone 300 mg IV。',reveal:'下一個 clinical question：ACS、drug-induced vasospasm，還是其他原因？'},
+    {title:'CAG — the pattern',text:'LMCA luminal irregularity；LAD 40–50% eccentric stenosis + diffuse spasm；LCX diffuse spasm；RCA 30–40% + diffuse spasm。',reveal:'病例核心表現：coronary spasm。Ergot-related vasospasm 因而成為重要機轉線索。'},
+    {title:'The second DDI',text:'ROSC 後使用 DAPT：aspirin + ticagrelor，以及 heparin infusion。',reveal:'不能只停在第一個 interaction。Boosted PI 也會影響 ticagrelor effect 與 clopidogrel activation。'},
+    {title:'Mechanism — all connected',text:'Ergotamine：5-HT receptor agonism + partial α-adrenergic agonism → CYP3A4 metabolism；DRV/c → CYP3A inhibition → exposure ↑ → vasospasm → ischemia / arrhythmia / collapse。',reveal:'2011 published case 亦曾描述單次 1 mg ergotamine 後的 severe four-limb ischemia 與 diffuse arterial spasm。'}
+  ];
+  caseSlides.forEach((c,i)=>{
+    const el=document.createElement('article');
+    el.className='case-step-card';
+    el.innerHTML='<div class="case-dot">'+(i+1)+'</div><div class="case-body"><h3>'+esc(c.title)+'</h3><p>'+esc(c.text)+'</p><button type="button" class="reveal-btn">揭露下一幕</button><div class="reveal-text">'+esc(c.reveal)+'</div></div>';
+    caseWrap.appendChild(el);
+  });
+  caseWrap.querySelectorAll('.reveal-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    const panel=btn.nextElementSibling;
+    panel.classList.toggle('show');
+    btn.textContent=panel.classList.contains('show')?'收起':'揭露下一幕';
+  }));
+})();
 </script>
 </body>
 </html>
